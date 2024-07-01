@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MusicPortal.Models.DataBase.User>
+
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="text-center">
+    <h2>Admin Panel</h2>
+</div>
+
+<h5>Unconfirmed Users</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Where(u => !u.IsConfirmed))
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>
+                    <button type="button" class="btn btn-success" onclick="confirmAction('@Url.Action("ConfirmUser", "Admin")', @user.Id, 'Confirm')">Confirm</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmAction('@Url.Action("DeleteUser", "Admin")', @user.Id, 'Delete')">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h5>Confirmed Users</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Where(u => u.IsConfirmed && !u.IsAdmin))
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@(user.IsBlocked ? "Blocked" : "Active")</td>
+                <td>
+                    @if (user.IsBlocked)
+                    {
+                        <button type="button" class="btn btn-primary" onclick="confirmAction('@Url.Action("UnblockUser", "Admin")', @user.Id, 'Unblock')">Unblock</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-warning" onclick="confirmAction('@Url.Action("BlockUser", "Admin")', @user.Id, 'Block')">Block</button>
+                    }
+                    <button type="button" class="btn btn-danger" onclick="confirmAction('@Url.Action("DeleteUser", "Admin")', @user.Id, 'Delete')">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/site.js"></script>

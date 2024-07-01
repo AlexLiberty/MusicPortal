@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var isAuthenticated = ViewContext.HttpContext.Session.GetString("UserId") != null;
+    var isAdmin = ViewData["IsAdmin"] != null && (bool)ViewData["IsAdmin"];
+}
+
+<div class="text-center">
+    <h1 class="display-4">Best Music Portal</h1>
+
+    @if (isAuthenticated)
+    {
+        @if (isAdmin)
+        {
+
+        }
+    }
+    else
+    {
+       
+    }
+</div>

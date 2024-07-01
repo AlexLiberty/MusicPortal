@@ -1,0 +1,89 @@
+html {
+    font-size: 14px;
+    background: linear-gradient(to right, rgb(147, 200, 228), #e0e759);
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    background: linear-gradient(to right, rgb(147, 200, 228), #e0e759);
+}
+
+body {
+    margin-bottom: 60px;
+    background: linear-gradient(to right, rgb(147, 200, 228), #e0e759);
+}
+
+.form {
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.footer {
+    background-color: whitesmoke;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    position: fixed;
+    bottom: 5px;
+}
+
+.mes {
+    height: 100px;
+    width: 100%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+
+.dispmes {
+    height: 100px;
+    width: 100%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding: 10px;
+    background-color: whitesmoke;
+}
+
+.nnn {
+    justify-content: center;
+}
+
+.pan {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.ddd {
+    margin-top: 20px;
+    border: solid 1px gray;
+    border-radius: 5px;
+    background-color: limegreen;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+
+    .ddd:hover {
+        opacity: 0.7;
+        background-color: limegreen;
+    }
+
+.ppp {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+}
