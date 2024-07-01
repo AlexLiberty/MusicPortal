@@ -1,5 +1,4 @@
-﻿using NuGet.Packaging.Signing;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MusicPortal.Models.DataBase
 {
