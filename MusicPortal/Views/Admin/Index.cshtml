@@ -14,6 +14,7 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
+            <th>Registration Date</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -23,6 +24,7 @@
             <tr>
                 <td>@user.Name</td>
                 <td>@user.Email</td>
+                <td>@user.Timestamp</td>
                 <td>
                     <button type="button" class="btn btn-success" onclick="confirmAction('@Url.Action("ConfirmUser", "Admin")', @user.Id, 'Confirm')">Confirm</button>
                     <button type="button" class="btn btn-danger" onclick="confirmAction('@Url.Action("DeleteUser", "Admin")', @user.Id, 'Delete')">Delete</button>
@@ -39,6 +41,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Status</th>
+            <th>Registration Date</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -49,6 +52,7 @@
                 <td>@user.Name</td>
                 <td>@user.Email</td>
                 <td>@(user.IsBlocked ? "Blocked" : "Active")</td>
+                <td>@user.Timestamp</td>
                 <td>
                     @if (user.IsBlocked)
                     {

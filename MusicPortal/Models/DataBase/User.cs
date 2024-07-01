@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using NuGet.Packaging.Signing;
+using System.ComponentModel.DataAnnotations;
 
 namespace MusicPortal.Models.DataBase
 {
@@ -16,5 +17,11 @@ namespace MusicPortal.Models.DataBase
         public bool IsConfirmed { get; set; } = false;
         public bool IsAdmin { get; set; }
         public bool IsBlocked { get; set; }
+        public string Timestamp { get; set; }
+
+        public User()
+        {
+            Timestamp = DateTime.Now.ToString("f");
+        }
     }
 }

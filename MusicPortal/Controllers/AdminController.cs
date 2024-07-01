@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicPortal.Models.Repository;
-using System.Threading.Tasks;
 
 namespace MusicPortal.Controllers
 {
