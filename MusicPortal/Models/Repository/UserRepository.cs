@@ -35,7 +35,7 @@ namespace MusicPortal.Models.Repository
         public async Task<User> AuthorizeUser(string email, string password)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
-            if (user != null && user.IsConfirmed)
+            if (user != null)
             {
                 string hashedPassword = SecurityHelper.HashPassword(password, user.Salt, 10000, 32);
                 if (user.Password == hashedPassword)

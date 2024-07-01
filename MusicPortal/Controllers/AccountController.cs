@@ -18,17 +18,34 @@ namespace MusicPortal.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+
             if (ModelState.IsValid)
             {
-                var user = await _userRepository.AuthorizeUser(model.Email, model.Password);
-                if (user != null && user.IsConfirmed)
+                if (!await _userRepository.UserExists(model.Email))
                 {
-                    HttpContext.Session.SetString("UserId", user.Id.ToString());
-                    HttpContext.Session.SetString("UserName", user.Name);
-                    HttpContext.Session.SetString("UserRole", user.IsAdmin ? "Admin" : "User");
-                    return RedirectToAction("Index", "Home");
+                    ModelState.AddModelError("", "No account found with the provided email.");
+                    return View(model);
                 }
-                ModelState.AddModelError("", "Invalid login attempt.");
+
+                var user = await _userRepository.AuthorizeUser(model.Email, model.Password);
+                if (user != null)
+                {
+                    if (user.IsConfirmed)
+                    {
+                        HttpContext.Session.SetString("UserId", user.Id.ToString());
+                        HttpContext.Session.SetString("UserName", user.Name);
+                        HttpContext.Session.SetString("UserRole", user.IsAdmin ? "Admin" : "User");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Account is not confirmed. Please check your email for confirmation.");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                }
             }
             return View(model);
         }
