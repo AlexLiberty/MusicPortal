@@ -23,7 +23,7 @@ namespace MusicPortal.Controllers
             {
                 if (!await _userRepository.UserExists(model.Email))
                 {
-                    ModelState.AddModelError("", "No account found with the provided email.");
+                    ModelState.AddModelError("", "email not found");
                     return View(model);
                 }
 
@@ -39,7 +39,7 @@ namespace MusicPortal.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Account is not confirmed. Please check your email for confirmation.");
+                        ModelState.AddModelError("", "Account is not confirmed.");
                     }
                 }
                 else
