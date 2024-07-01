@@ -23,7 +23,7 @@ namespace MusicPortal.Controllers
             {
                 if (!await _userRepository.UserExists(model.Email))
                 {
-                    ModelState.AddModelError("", "email not found");
+                    ModelState.AddModelError("", "Email not found!");
                     return View(model);
                 }
 
