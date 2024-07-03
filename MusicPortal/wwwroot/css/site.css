@@ -115,3 +115,71 @@ body {
     border: solid 1px gray;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
+
+.del {
+    background-color: #d60404;
+    border: solid 1px gray;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+    .del:hover {
+        opacity: 0.7;
+        background-color: #d60404;
+    }
+
+.conf {
+    background-color: #04e100;
+    border: solid 1px gray;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+
+    .conf:hover {
+        opacity: 0.7;
+        background-color: #04e100;
+    }
+
+.unbl {
+    background-color: #04e100;
+    border: solid 1px gray;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+    .unbl:hover {
+        opacity: 0.7;
+        background-color: #04e100;
+    }
+
+.blo {
+    background-color: #e7bb0c;
+    border: solid 1px gray;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+    .blo:hover {
+        opacity: 0.7;
+        background-color: #e7bb0c;
+    }
+
+.nav-tabs .nav-link {
+    border-radius: 3px;
+    border: solid 1px gray;
+    background: rgba(255, 255, 255, 0.0);
+    color: black;
+    font-family: 'Berlin Sans FB';
+}
+
+    .nav-tabs .nav-link.active {
+        color: black;
+        border: solid 1px gray;
+        border-radius: 3px;
+        font-family: 'Berlin Sans FB';
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        background: linear-gradient(to right, rgb(141, 252, 76), #ee76e6);
+        margin-bottom: 10px;
+        margin-left: 2px;
+    }
+    .nav-tabs .nav-link:hover {
+        opacity: 0.7;
+        border: solid 2px gray;
+    }

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<MusicPortal.Models.DataBase.User>
+<br>
+<h5>Unconfirmed Users</h5>
+<br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Registration Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Where(u => !u.IsConfirmed))
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.Name</td>
+                <td>@user.Timestamp</td>
+                <td>
+                    <button type="button" class="btn btn-success conf" onclick="confirmAction('@Url.Action("ConfirmUser", "Admin")', @user.Id, 'Confirm')">Confirm</button>
+                    <button type="button" class="btn btn-danger del" onclick="confirmAction('@Url.Action("DeleteUser", "Admin")', @user.Id, 'Delete')">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

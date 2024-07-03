@@ -1,4 +1,25 @@
-﻿function confirmAction(url, userId, action) {
+﻿function saveTabState() {
+    const activeTab = document.querySelector('.nav-tabs .nav-link.active').getAttribute('id');
+    localStorage.setItem('activeTab', activeTab);
+}
+
+
+function restoreTabState() {
+    const activeTab = localStorage.getItem('activeTab');
+    if (activeTab) {
+        const tab = document.getElementById(activeTab);
+        if (tab) {
+            tab.click();
+        }
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', restoreTabState);
+
+function confirmAction(url, userId, action) {
+    saveTabState();
+
     Swal.fire({
         title: `Are you sure you want to ${action.toLowerCase()} this user?`,
         icon: 'warning',
@@ -20,17 +41,47 @@
     });
 }
 
-function sendPostRequest(url, userId) {
-    const form = document.createElement('form');
-    form.method = 'post';
-    form.action = url;
+async function sendPostRequest(url, userId) {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({ 'userId': userId })
+        });
 
-    const hiddenField = document.createElement('input');
-    hiddenField.type = 'hidden';
-    hiddenField.name = 'userId';
-    hiddenField.value = userId;
+        if (response.ok) {
+            await updateTabContent();
+        } else {
+            Swal.fire('Error', 'There was an error processing your request.', 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire('Error', 'There was an error processing your request.', 'error');
+    }
+}
 
-    form.appendChild(hiddenField);
-    document.body.appendChild(form);
-    form.submit();
+async function updateTabContent() {
+    try {
+        const confirmationTab = document.querySelector('#confirmation');
+        const managementTab = document.querySelector('#management');
+
+        const confirmationResponse = await fetch('/Admin/UserConfirmationPartial');
+        const managementResponse = await fetch('/Admin/UserManagementPartial');
+
+        if (confirmationResponse.ok) {
+            const confirmationHtml = await confirmationResponse.text();
+            confirmationTab.innerHTML = confirmationHtml;
+        }
+
+        if (managementResponse.ok) {
+            const managementHtml = await managementResponse.text();
+            managementTab.innerHTML = managementHtml;
+        }
+
+        restoreTabState();
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
