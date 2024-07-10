@@ -3,7 +3,6 @@
     localStorage.setItem('activeTab', activeTab);
 }
 
-
 function restoreTabState() {
     const activeTab = localStorage.getItem('activeTab');
     if (activeTab) {
@@ -13,7 +12,6 @@ function restoreTabState() {
         }
     }
 }
-
 
 function confirmAction(url, userId, action) {
     saveTabState();
