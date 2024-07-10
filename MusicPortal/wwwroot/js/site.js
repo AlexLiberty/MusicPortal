@@ -15,8 +15,6 @@ function restoreTabState() {
 }
 
 
-document.addEventListener('DOMContentLoaded', restoreTabState);
-
 function confirmAction(url, userId, action) {
     saveTabState();
 

@@ -10,10 +10,16 @@
 
 <ul class="nav nav-tabs" id="adminTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="confirmation-tab" data-toggle="tab" href="#confirmation" role="tab" aria-controls="confirmation" aria-selected="true">User Confirmation</a>
+        <a class="nav-link tabmenu active" id="confirmation-tab" data-toggle="tab" href="#confirmation" role="tab" aria-controls="confirmation" aria-selected="true">User Confirmation</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="management-tab" data-toggle="tab" href="#management" role="tab" aria-controls="management" aria-selected="false">User Management</a>
+        <a class="nav-link tabmenu" id="management-tab" data-toggle="tab" href="#management" role="tab" aria-controls="management" aria-selected="false">User Management</a>
+    </li>
+     <li class="nav-item">
+        <a class="nav-link tabmenu" id="genre-tab" data-toggle="tab" href="#genre" role="tab" aria-controls="genre" aria-selected="false">Genre Management</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link tabmenu" id="music-tab" data-toggle="tab" href="#music" role="tab" aria-controls="music" aria-selected="false">Music Management</a>
     </li>
 </ul>
 
@@ -23,6 +29,12 @@
     </div>
     <div class="tab-pane fade" id="management" role="tabpanel" aria-labelledby="management-tab">
         @await Html.PartialAsync("UserManagement", Model.Where(u => u.IsConfirmed && !u.IsAdmin))
+    </div>
+    <div class="tab-pane fade" id="genre" role="tabpanel" aria-labelledby="genre-tab">
+    
+    </div>
+    <div class="tab-pane fade" id="music" role="tabpanel" aria-labelledby="music-tab">
+ 
     </div>
 </div>
 
