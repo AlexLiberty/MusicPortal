@@ -1,10 +1,8 @@
-﻿// Сохранение состояния вкладки
-function saveTabState() {
+﻿function saveTabState() {
     const activeTab = document.querySelector('.nav-tabs .nav-link.active').getAttribute('id');
     localStorage.setItem('activeTab', activeTab);
 }
 
-// Восстановление состояния вкладки
 function restoreTabState() {
     const activeTab = localStorage.getItem('activeTab');
     if (activeTab) {
@@ -15,7 +13,6 @@ function restoreTabState() {
     }
 }
 
-// Подтверждение действия с пользователем
 function confirmAction(url, userId, action) {
     saveTabState();
 
@@ -40,7 +37,6 @@ function confirmAction(url, userId, action) {
     });
 }
 
-// Отправка POST-запроса
 async function sendPostRequest(url, userId) {
     try {
         const response = await fetch(url, {
@@ -62,7 +58,6 @@ async function sendPostRequest(url, userId) {
     }
 }
 
-// Обновление содержимого вкладок
 async function updateTabContent() {
     try {
         const confirmationTab = document.querySelector('#confirmation');
