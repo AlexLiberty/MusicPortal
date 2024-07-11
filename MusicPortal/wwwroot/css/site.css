@@ -130,6 +130,7 @@ body {
     .del:hover {
         opacity: 0.7;
         background-color: #d60404;
+        border: solid 1px gray;
     }
 
 .conf {

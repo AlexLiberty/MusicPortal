@@ -90,7 +90,7 @@ async function updateTabContent() {
 }
 
 $(document).ready(function () {
-    restoreTabState();
+    saveTabState();
     $('#addGenreForm').on('submit', function (e) {
         e.preventDefault();
 
@@ -154,13 +154,21 @@ function editGenre(id, name) {
 }
 
 function deleteGenre(id) {
+    saveTabState();
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#48e945',
+        cancelButtonColor: '#e91212',
+        customClass: {
+            container: 'swal-container',
+            popup: 'swal-popup',
+            title: 'swal-title',
+            confirmButton: 'confirm-btn',
+            cancelButton: 'cancel-btn'
+        },
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {

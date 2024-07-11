@@ -78,10 +78,9 @@
     </div>
 </div>
 
-<!-- Edit Music Modal -->
 <div class="modal fade" id="editMusicModal" tabindex="-1" role="dialog" aria-labelledby="editMusicModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog centermodal" role="document">
+        <div class="modal-content addform">
             <div class="modal-header">
                 <h5 class="modal-title" id="editMusicModalLabel">Edit Music</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -92,14 +91,17 @@
                 <input type="hidden" id="editMusicId" name="Id" />
                 <div class="modal-body">
                     <div class="form-group">
+                        <br>
                         <label for="editMusicTitle">Title</label>
-                        <input type="text" class="form-control" id="editMusicTitle" name="Title" required />
+                        <input type="text" class="form-control ppp" id="editMusicTitle" name="Title" required />
                     </div>
                     <div class="form-group">
+                        <br>
                         <label for="editMusicArtist">Artist</label>
-                        <input type="text" class="form-control" id="editMusicArtist" name="Artist" required />
+                        <input type="text" class="form-control ppp" id="editMusicArtist" name="Artist" required />
                     </div>
                     <div class="form-group">
+                        <br>
                         <label for="editMusicGenre">Genre</label>
                         <select class="form-control" id="editMusicGenre" name="GenreId" required>
                             @foreach (var genre in genres)
@@ -109,13 +111,13 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <br>
                         <label for="editMusicFile">File (optional)</label>
                         <input type="file" class="form-control-file" id="editMusicFile" name="MusicFile" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary conf">Save Changes</button>
                 </div>
             </form>
         </div>
@@ -125,7 +127,7 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Handle Add Music Form submission
+
             $('#addMusicForm').on('submit', function (e) {
                 e.preventDefault();
                 var formData = new FormData(this);
@@ -146,7 +148,6 @@
                 });
             });
 
-            // Handle Edit Music Form submission
             $('#editMusicForm').on('submit', function (e) {
                 e.preventDefault();
                 var formData = new FormData(this);
@@ -168,7 +169,6 @@
             });
         });
 
-        // Populate Edit Music Modal with data
         function editMusic(id, title, artist, genreId) {
             $('#editMusicId').val(id);
             $('#editMusicTitle').val(title);
@@ -177,7 +177,6 @@
             $('#editMusicModal').modal('show');
         }
 
-        // Delete Music
         function deleteMusic(id) {
             Swal.fire({
                 title: 'Are you sure?',
