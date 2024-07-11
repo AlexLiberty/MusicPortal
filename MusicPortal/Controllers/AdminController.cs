@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MusicPortal.Models.DataBase;
 using MusicPortal.Models.Repository;
 
@@ -88,7 +87,7 @@ namespace MusicPortal.Controllers
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                return Json(new { success = false, message = "Genre name is required." });
+                return Json(new { success = false });
             }
 
             bool isAdded = await _genreRepository.AddGenre(name);
@@ -99,7 +98,7 @@ namespace MusicPortal.Controllers
             }
             else
             {
-                return Json(new { success = false, message = "Genre already exists." });
+                return Json(new { success = false});
             }
         }
 
