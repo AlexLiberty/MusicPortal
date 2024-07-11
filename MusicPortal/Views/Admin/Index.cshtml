@@ -25,16 +25,16 @@
 
 <div class="tab-content" id="adminTabContent">
     <div class="tab-pane fade show active" id="confirmation" role="tabpanel" aria-labelledby="confirmation-tab">
-        @await Html.PartialAsync("UserConfirmation", Model.Where(u => !u.IsConfirmed))
+        @await Html.PartialAsync("UserConfirmation", (IEnumerable<MusicPortal.Models.DataBase.User>)ViewData["NonAdminUsers"])
     </div>
     <div class="tab-pane fade" id="management" role="tabpanel" aria-labelledby="management-tab">
-        @await Html.PartialAsync("UserManagement", Model.Where(u => u.IsConfirmed && !u.IsAdmin))
+        @await Html.PartialAsync("UserManagement", (IEnumerable<MusicPortal.Models.DataBase.User>)ViewData["ConfirmedUsers"])
     </div>
     <div class="tab-pane fade" id="genre" role="tabpanel" aria-labelledby="genre-tab">
-    
+        @await Html.PartialAsync("GenreManagement", (IEnumerable<MusicPortal.Models.DataBase.Genre>)ViewData["Genres"])
     </div>
     <div class="tab-pane fade" id="music" role="tabpanel" aria-labelledby="music-tab">
- 
+        @await Html.PartialAsync("MusicManagement", (IEnumerable<MusicPortal.Models.DataBase.Music>)ViewData["Music"])
     </div>
 </div>
 

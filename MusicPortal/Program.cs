@@ -7,6 +7,8 @@ string? connection = builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddDbContext<MusicPortalContext>(options => options.UseSqlServer(connection));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<IMusicRepository, MusicRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
