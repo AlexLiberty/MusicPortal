@@ -2,13 +2,11 @@
 
 <div class="container mt-4">
     <h3>Genre Management</h3>
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addGenreModal">Add Genre</button>
-
-    <table class="table table-striped">
+    <button class="addconf" data-toggle="modal" data-target="#addGenreModal">Add Genre</button>
+    <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
+                <th style="width: 70%">Name</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -16,11 +14,10 @@
             @foreach (var genre in Model)
             {
                 <tr>
-                    <td>@genre.Id</td>
                     <td>@genre.Name</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editGenre(@genre.Id, '@genre.Name')">Edit</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteGenre(@genre.Id)">Delete</button>
+                        <button class="btn btn-warning btn-sm blo" onclick="editGenre(@genre.Id, '@genre.Name')">Edit</button>
+                        <button class="btn btn-danger btn-sm del" onclick="deleteGenre(@genre.Id)">Delete</button>
                     </td>
                 </tr>
             }
@@ -28,12 +25,11 @@
     </table>
 </div>
 
-<!-- Add Genre Modal -->
 <div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog centermodal" role="document">
+        <div class="modal-content addform">
             <div class="modal-header">
-                <h5 class="modal-title" id="addGenreModalLabel">Add Genre</h5>
+                <h5 class="modal-title" id="addGenreModalLabel">Add New Genre</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -44,19 +40,17 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="genreName">Genre Name</label>
-                        <input type="text" class="form-control" id="genreName" name="name" required />
+                        <input type="text" class="form-control ppp" id="genreName" name="name" required />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Genre</button>
+                    <button type="submit" class="btn btn-primary conf">Add Genre</button>                    
                 </div>
             }
         </div>
     </div>
 </div>
 
-<!-- Edit Genre Modal -->
 <div class="modal fade" id="editGenreModal" tabindex="-1" role="dialog" aria-labelledby="editGenreModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

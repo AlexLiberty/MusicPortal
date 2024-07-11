@@ -5,14 +5,11 @@
 
 <div class="container mt-4">
     <h3>Music Management</h3>
-    <!-- Add Music Button -->
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addMusicModal">Add Music</button>
+    <button class="addconf" data-toggle="modal" data-target="#addMusicModal">Add Music</button>
 
-    <!-- Music List -->
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Title</th>
                 <th>Artist</th>
                 <th>Genre</th>
@@ -23,7 +20,6 @@
             @foreach (var music in Model)
             {
                 <tr>
-                    <td>@music.Id</td>
                     <td>@music.Title</td>
                     <td>@music.Artist</td>
                     <td>@music.Genre?.Name</td>
@@ -37,10 +33,9 @@
     </table>
 </div>
 
-<!-- Add Music Modal -->
 <div class="modal fade" id="addMusicModal" tabindex="-1" role="dialog" aria-labelledby="addMusicModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog centermodal" role="document">
+        <div class="modal-content addform">
             <div class="modal-header">
                 <h5 class="modal-title" id="addMusicModalLabel">Add Music</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -50,16 +45,19 @@
             <form id="addMusicForm" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-group">
+                        <br>
                         <label for="musicTitle">Title</label>
-                        <input type="text" class="form-control" id="musicTitle" name="Title" required />
+                        <input type="text" class="form-control  ppp" id="musicTitle" name="Title" required />
                     </div>
                     <div class="form-group">
+                        <br>
                         <label for="musicArtist">Artist</label>
-                        <input type="text" class="form-control" id="musicArtist" name="Artist" required />
+                        <input type="text" class="form-control  ppp" id="musicArtist" name="Artist" required />
                     </div>
                     <div class="form-group">
+                        <br>
                         <label for="musicGenre">Genre</label>
-                        <select class="form-control" id="musicGenre" name="GenreId" required>
+                        <select class="form-control ppp" id="musicGenre" name="GenreId" required>
                             @foreach (var genre in genres)
                             {
                                 <option value="@genre.Id">@genre.Name</option>
@@ -67,13 +65,13 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <br><br>
                         <label for="musicFile">File</label>
                         <input type="file" class="form-control-file" id="musicFile" name="MusicFile" required />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Music</button>
+                    <button type="submit" class="btn btn-primary conf">Add Music</button>
                 </div>
             </form>
         </div>

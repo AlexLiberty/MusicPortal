@@ -88,6 +88,11 @@ body {
     border-radius: 8px;
 }
 
+    .ppp:focus {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+        border: solid 2px gray;
+    }
+
 
 .swal-container {
     display: flex;
@@ -189,4 +194,48 @@ body {
     opacity: 0.7;
     border: solid 2px gray;
     background: #e7bb0c;
+}
+
+.close {
+    color: white;
+    background: #d60404;
+    border-radius: 3px;
+    border: solid 1px gray;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+    width: 40px;
+}
+    .close:hover {
+        opacity: 0.7;
+        background-color: #d60404;
+    }
+
+.addform {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    background-color: whitesmoke;
+}
+
+.addconf {
+    background-color: #04e100;
+    border: solid 1px gray;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+    width: 25%;
+    height: 40px;
+    border-radius: 5px;
+    color: whitesmoke;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+    .addconf:hover {
+        opacity: 0.7;
+        background-color: #04e100;
+    }
+
+.centermodal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 50%;
 }

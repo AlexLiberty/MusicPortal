@@ -91,7 +91,6 @@ async function updateTabContent() {
 
 $(document).ready(function () {
     restoreTabState();
-
     $('#addGenreForm').on('submit', function (e) {
         e.preventDefault();
 

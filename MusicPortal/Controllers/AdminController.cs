@@ -98,7 +98,7 @@ namespace MusicPortal.Controllers
             }
             else
             {
-                return Json(new { success = false});
+                return Json(new { success = false });
             }
         }
 
