@@ -19,17 +19,15 @@ namespace MusicPortal.Models.Repository
 
         public async Task<bool> AddGenre(string name)
         {
-            // Проверка на существование жанра
             var genreExists = _context.Genres
-                .AsEnumerable()  // Переводит данные на клиентскую сторону
+                .AsEnumerable()
                 .Any(g => g.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 
             if (genreExists)
             {
-                return false;  // Жанр уже существует
+                return false;
             }
 
-            // Добавление нового жанра
             var genre = new Genre { Name = name };
             _context.Genres.Add(genre);
             await _context.SaveChangesAsync();

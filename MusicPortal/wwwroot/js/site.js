@@ -60,97 +60,39 @@ async function sendPostRequest(url, userId) {
 
 async function updateTabContent() {
     try {
-        const confirmationTab = document.querySelector('#confirmation');
-        const managementTab = document.querySelector('#management');
-        const genreTab = document.querySelector('#genre');
+        const tabSelectors = {
+            confirmation: '#confirmation',
+            management: '#management',
+            genre: '#genre',
+            music: '#music'
+        };
 
-        const confirmationResponse = await fetch('/Admin/UserConfirmationPartial');
-        const managementResponse = await fetch('/Admin/UserManagementPartial');
-        const genreResponse = await fetch('/Admin/GenreManagementPartial');
-
-        if (confirmationResponse.ok) {
-            const confirmationHtml = await confirmationResponse.text();
-            confirmationTab.innerHTML = confirmationHtml;
+        async function fetchHtml(url) {
+            const response = await fetch(url);
+            if (response.ok) {
+                return await response.text();
+            } else {
+                console.error('Failed to fetch:', url);
+                return '';
+            }
         }
 
-        if (managementResponse.ok) {
-            const managementHtml = await managementResponse.text();
-            managementTab.innerHTML = managementHtml;
-        }
+        const [confirmationHtml, managementHtml, genreHtml, musicHtml] = await Promise.all([
+            fetchHtml('/Admin/UserConfirmationPartial'),
+            fetchHtml('/Admin/UserManagementPartial'),
+            fetchHtml('/Admin/GenreManagementPartial'),
+            fetchHtml('/Admin/MusicManagementPartial')
+        ]);
 
-        if (genreResponse.ok) {
-            const genreHtml = await genreResponse.text();
-            genreTab.innerHTML = genreHtml;
-        }
+        document.querySelector(tabSelectors.confirmation).innerHTML = confirmationHtml;
+        document.querySelector(tabSelectors.management).innerHTML = managementHtml;
+        document.querySelector(tabSelectors.genre).innerHTML = genreHtml;
+        document.querySelector(tabSelectors.music).innerHTML = musicHtml;
 
         restoreTabState();
     } catch (error) {
         console.error('Error:', error);
     }
-}
-
-$(document).ready(function () {
-    saveTabState();
-    $('#addGenreForm').on('submit', function (e) {
-        e.preventDefault();
-
-        saveTabState();
-
-        var formData = $(this).serialize();
-
-        $.ajax({
-            type: 'POST',
-            url: '/Admin/AddGenre', 
-            data: formData,
-            headers: {
-                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() 
-            },
-            success: function (response) {
-          
-                if (response && response.success) {
-                    Swal.fire('Success', 'Genre added successfully!', 'success').then(async () => {
-                        $('#addGenreModal').modal('hide');
-                        await updateTabContent(); 
-                    });
-                } else {
-                    Swal.fire('Error', response && response.message || 'An error occurred while adding the genre.', 'error');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-                Swal.fire('Error', 'An error occurred while adding the genre.', 'error');
-            }
-        });
-    });
-
-    $('#editGenreForm').on('submit', function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '/Admin/EditGenre',
-            data: $(this).serialize(),
-            success: function (response) {
-                if (response && response.success) {
-                    Swal.fire('Success', 'Genre updated successfully!', 'success').then(async () => {
-                        $('#editGenreModal').modal('hide');
-                        await updateTabContent();
-                    });
-                } else {
-                    Swal.fire('Error', response && response.message || 'An error occurred while updating the genre.', 'error');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-                Swal.fire('Error', 'An error occurred while updating the genre.', 'error');
-            }
-        });
-    });
-});
-
-function editGenre(id, name) {
-    $('#editGenreId').val(id);
-    $('#editGenreName').val(name);
-    $('#editGenreModal').modal('show');
 }
 
 function deleteGenre(id) {
@@ -193,3 +135,95 @@ function deleteGenre(id) {
         }
     });
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('submitGenreBtn').addEventListener('click', async function () {
+        await sendFormRequest('addGenreForm', '/Admin/AddGenre');
+    });
+});
+
+let isSubmitting = false;
+
+async function sendFormRequest(formId, url) {
+    if (isSubmitting) return;
+
+    isSubmitting = true;
+
+    try {
+
+        const form = document.getElementById(formId);
+        const formData = new FormData(form);
+
+        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'RequestVerificationToken': token
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.success) {
+                Swal.fire('Success', 'Genre added successfully!', 'success').then(async () => {
+                    $('#addGenreModal').modal('hide');
+                    await updateTabContent();
+                    form.reset();
+                });
+            } else {
+                Swal.fire('Error', data.message || 'An error occurred while adding the genre.', 'error');
+            }
+        } else {
+            Swal.fire('Error', 'There was an error processing your request.', 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire('Error', 'There was an error processing your request.', 'error');
+    } finally {
+        isSubmitting = false;
+    }
+}
+
+$('#editGenreForm').on('submit', async function (e) {
+    e.preventDefault();
+    saveTabState();
+
+    var formData = $(this).serialize();
+
+    try {
+        const response = await $.ajax({
+            type: 'POST',
+            url: '/Admin/EditGenre',
+            data: formData,
+            headers: {
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            },
+            dataType: 'json'
+        });
+
+        if (response && response.success) {
+            await Swal.fire('Success', 'Genre updated successfully!', 'success');
+            $('#editGenreModal').modal('hide');
+            await updateTabContent();
+            $('#editGenreForm')[0].reset();
+        } else {
+            await Swal.fire('Error', response.message || 'An error occurred while updating the genre.', 'error');
+        }
+    } catch (xhr) {
+        console.error('Error:', xhr.statusText);
+        const errorMessage = xhr.responseJSON?.message || 'An error occurred while updating the genre.';
+        await Swal.fire('Error', errorMessage, 'error');
+    }
+});
+
+function editGenre(id, name) {
+    $('#editGenreId').val(id);
+    $('#editGenreName').val(name);
+    $('#editGenreModal').modal('show');
+}
+
