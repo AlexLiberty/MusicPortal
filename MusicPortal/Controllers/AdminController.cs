@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicPortal.Models.DataBase;
 using MusicPortal.Models.Repository;
+using System.Text.Json;
 
 namespace MusicPortal.Controllers
 {
@@ -85,11 +86,6 @@ namespace MusicPortal.Controllers
         [HttpPost]
         public async Task<IActionResult> AddGenre(string name)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return Json(new { success = false });
-            }
-
             bool isAdded = await _genreRepository.AddGenre(name);
 
             if (isAdded)

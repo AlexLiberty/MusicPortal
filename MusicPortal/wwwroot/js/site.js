@@ -32,12 +32,12 @@ function confirmAction(url, userId, action) {
         confirmButtonText: 'Yes, ' + action.toLowerCase() + ' it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            sendPostRequest(url, userId);
+            sendPostUserRequest(url, userId);
         }
     });
 }
 
-async function sendPostRequest(url, userId) {
+async function sendPostUserRequest(url, userId) {
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -138,92 +138,27 @@ function deleteGenre(id) {
 
 /////////////////////////////////////////////////////////////////////////////////
 
-document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('submitGenreBtn').addEventListener('click', async function () {
-        await sendFormRequest('addGenreForm', '/Admin/AddGenre');
-    });
-});
 
-let isSubmitting = false;
 
-async function sendFormRequest(formId, url) {
-    if (isSubmitting) return;
 
-    isSubmitting = true;
 
+async function sendPostGenreRequest(url, userId) {
     try {
-
-        const form = document.getElementById(formId);
-        const formData = new FormData(form);
-
-        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-
         const response = await fetch(url, {
             method: 'POST',
-            body: formData,
             headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'RequestVerificationToken': token
-            }
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({ 'userId': userId })
         });
 
         if (response.ok) {
-            const data = await response.json();
-            if (data.success) {
-                Swal.fire('Success', 'Genre added successfully!', 'success').then(async () => {
-                    $('#addGenreModal').modal('hide');
-                    await updateTabContent();
-                    form.reset();
-                });
-            } else {
-                Swal.fire('Error', data.message || 'An error occurred while adding the genre.', 'error');
-            }
+            await updateTabContent();
         } else {
             Swal.fire('Error', 'There was an error processing your request.', 'error');
         }
     } catch (error) {
         console.error('Error:', error);
         Swal.fire('Error', 'There was an error processing your request.', 'error');
-    } finally {
-        isSubmitting = false;
     }
 }
-
-$('#editGenreForm').on('submit', async function (e) {
-    e.preventDefault();
-    saveTabState();
-
-    var formData = $(this).serialize();
-
-    try {
-        const response = await $.ajax({
-            type: 'POST',
-            url: '/Admin/EditGenre',
-            data: formData,
-            headers: {
-                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
-            },
-            dataType: 'json'
-        });
-
-        if (response && response.success) {
-            await Swal.fire('Success', 'Genre updated successfully!', 'success');
-            $('#editGenreModal').modal('hide');
-            await updateTabContent();
-            $('#editGenreForm')[0].reset();
-        } else {
-            await Swal.fire('Error', response.message || 'An error occurred while updating the genre.', 'error');
-        }
-    } catch (xhr) {
-        console.error('Error:', xhr.statusText);
-        const errorMessage = xhr.responseJSON?.message || 'An error occurred while updating the genre.';
-        await Swal.fire('Error', errorMessage, 'error');
-    }
-});
-
-function editGenre(id, name) {
-    $('#editGenreId').val(id);
-    $('#editGenreName').val(name);
-    $('#editGenreModal').modal('show');
-}
-

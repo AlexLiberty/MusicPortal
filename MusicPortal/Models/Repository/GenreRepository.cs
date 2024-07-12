@@ -23,7 +23,7 @@ namespace MusicPortal.Models.Repository
                 .AsEnumerable()
                 .Any(g => g.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 
-            if (genreExists)
+            if (genreExists || name == null)
             {
                 return false;
             }
