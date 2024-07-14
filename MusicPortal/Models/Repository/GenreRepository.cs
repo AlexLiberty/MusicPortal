@@ -14,7 +14,7 @@ namespace MusicPortal.Models.Repository
 
         public async Task<IEnumerable<Genre>> GetAllGenres()
         {
-            return await _context.Genres.ToListAsync() ?? Enumerable.Empty<Genre>();
+            return await _context.Genres.ToListAsync();
         }
 
         public async Task<bool> AddGenre(string name)

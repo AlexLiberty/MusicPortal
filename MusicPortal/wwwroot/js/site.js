@@ -142,6 +142,11 @@ function editGenreModal(url, id, name) {
     $('#editGenreModal').modal('show');
 }
 
+function addGenreModal(url, name) {
+    document.getElementById('addGenreName').value = name;
+    $('#addGenreModal').modal('show');
+}
+
 function submitEditGenreForm() {
     var form = $('#editGenreForm');
     $.ajax({
@@ -159,6 +164,29 @@ function submitEditGenreForm() {
             }
         },
         error: function(xhr, status, error) {
+            console.error('Error:', error);
+            Swal.fire('Error', 'An error occurred while editing the genre.', 'error');
+        }
+    });
+}
+
+function submitAddGenreForm() {
+    var form = $('#addGenreForm');
+    $.ajax({
+        type: 'POST',
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function (response) {
+            if (response.success) {
+                Swal.fire('Success!', 'Genre successfully add.', 'success').then(() => {
+                    $('#addGenreModal').modal('hide');
+                    updateTabContent();
+                });
+            } else {
+                Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
+            }
+        },
+        error: function (xhr, status, error) {
             console.error('Error:', error);
             Swal.fire('Error', 'An error occurred while editing the genre.', 'error');
         }

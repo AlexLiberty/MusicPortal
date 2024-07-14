@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicPortal.Models.DataBase;
 using MusicPortal.Models.Repository;
-using System.Text.Json;
 
 namespace MusicPortal.Controllers
 {
@@ -20,12 +19,12 @@ namespace MusicPortal.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var users = await _userRepository.GetAllUsers() ?? Enumerable.Empty<User>();
+            var users = await _userRepository.GetAllUsers();
             var nonAdminUsers = users.Where(u => !u.IsAdmin);
             var confirmedUsers = users.Where(u => u.IsConfirmed && !u.IsAdmin);
 
-            var genres = await _genreRepository.GetAllGenres() ?? Enumerable.Empty<Genre>();
-            var music = await _musicRepository.GetAllMusic() ?? Enumerable.Empty<Music>();
+            var genres = await _genreRepository.GetAllGenres();
+            var music = await _musicRepository.GetAllMusic();
 
             ViewData["NonAdminUsers"] = nonAdminUsers;
             ViewData["ConfirmedUsers"] = confirmedUsers;
@@ -80,7 +79,7 @@ namespace MusicPortal.Controllers
         public async Task<IActionResult> GenreManagementPartial()
         {
             var genres = await _genreRepository.GetAllGenres();
-            return PartialView("GenreManagement", genres ?? Enumerable.Empty<Genre>());
+            return PartialView("GenreManagement", genres);
         }
 
         [HttpPost]
@@ -115,8 +114,8 @@ namespace MusicPortal.Controllers
         public async Task<IActionResult> MusicManagementPartial()
         {
             var music = await _musicRepository.GetAllMusic();
-            ViewBag.Genres = await _genreRepository.GetAllGenres() ?? Enumerable.Empty<Genre>();
-            return PartialView("MusicManagement", music ?? Enumerable.Empty<Music>());
+            ViewBag.Genres = await _genreRepository.GetAllGenres();
+            return PartialView("MusicManagement", music);
         }
 
         [HttpPost]

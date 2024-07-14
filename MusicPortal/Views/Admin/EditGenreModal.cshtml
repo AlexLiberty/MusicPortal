@@ -1,0 +1,25 @@
+﻿<div class="modal fade" id="editGenreModal" tabindex="-1" role="dialog" aria-labelledby="editGenreModalLabel" aria-hidden="true">
+    <div class="modal-dialog centermodal" role="document">
+        <div class="modal-content addform">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editGenreModalLabel">Edit Genre</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("EditGenre", "Admin", FormMethod.Post, new { id = "editGenreForm" }))
+            {
+                <input type="hidden" id="editGenreId" name="Id" />
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editGenreName">Genre Name</label>
+                        <input type="text" class="form-control ppp" id="editGenreName" name="name" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary conf" onclick="submitEditGenreForm()">Save Changes</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
