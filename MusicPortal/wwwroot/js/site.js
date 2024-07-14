@@ -95,7 +95,7 @@ async function updateTabContent() {
     }
 }
 
-function deleteGenre(id) {
+function deleteGenre(url, id) {
     saveTabState();
     Swal.fire({
         title: 'Are you sure?',
@@ -116,7 +116,7 @@ function deleteGenre(id) {
         if (result.isConfirmed) {
             $.ajax({
                 type: 'POST',
-                url: '/Admin/DeleteGenre',
+                url: url,
                 data: { id: id },
                 success: function (response) {
                     if (response && response.success) {
@@ -136,29 +136,31 @@ function deleteGenre(id) {
     });
 }
 
-/////////////////////////////////////////////////////////////////////////////////
+function editGenreModal(url, id, name) {
+    document.getElementById('editGenreId').value = id;
+    document.getElementById('editGenreName').value = name;
+    $('#editGenreModal').modal('show');
+}
 
-
-
-
-
-async function sendPostGenreRequest(url, userId) {
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({ 'userId': userId })
-        });
-
-        if (response.ok) {
-            await updateTabContent();
-        } else {
-            Swal.fire('Error', 'There was an error processing your request.', 'error');
+function submitEditGenreForm() {
+    var form = $('#editGenreForm');
+    $.ajax({
+        type: 'POST',
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function(response) {
+            if (response.success) {
+                Swal.fire('Success!', 'Genre successfully edited.', 'success').then(() => {
+                    $('#editGenreModal').modal('hide');
+                    updateTabContent();
+                });
+            } else {
+                Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            Swal.fire('Error', 'An error occurred while editing the genre.', 'error');
         }
-    } catch (error) {
-        console.error('Error:', error);
-        Swal.fire('Error', 'There was an error processing your request.', 'error');
-    }
+    });
 }

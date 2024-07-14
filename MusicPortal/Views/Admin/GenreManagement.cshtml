@@ -16,10 +16,8 @@
                 <tr>
                     <td>@genre.Name</td>
                     <td>
-                       @*  <button type="button" class="btn btn-warning blo" onclick="editGenre(@genre.Id, '@genre.Name')">Edit</button> *@
-                       @*  <button type="button" class="btn btn-danger del" onclick="deleteGenre(@genre.Id)">Delete</button>  *@ 
-                        <button type="button" class="btn btn-warning blo" onclick="editGenreModal('@Url.Action("EditGenre", "Admin")', @genre.Id, @genre.Name, 'Edit')">Edit</button>
-                        <button type="button" class="btn btn-danger del" onclick="deleteGenre('@Url.Action("DeleteGenre", "Admin")', @genre.Id, 'Delete')">Delete</button>
+                        <button type="button" class="btn btn-warning blo" onclick="editGenreModal('@Url.Action("EditGenre", "Admin")', @genre.Id, '@genre.Name')">Edit</button>
+                        <button type="button" class="btn btn-danger del" onclick="deleteGenre('@Url.Action("DeleteGenre", "Admin")', @genre.Id)">Delete</button>
                     </td>
                 </tr>
             }
@@ -73,8 +71,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary conf">Save Changes</button>
+                    <button type="button" class="btn btn-primary conf" onclick="submitEditGenreForm()">Save Changes</button>
                 </div>
             }
         </div>
     </div>
+</div>
