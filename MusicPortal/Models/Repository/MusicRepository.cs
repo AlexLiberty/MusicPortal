@@ -1,5 +1,6 @@
 ﻿using MusicPortal.Models.DataBase;
 using Microsoft.EntityFrameworkCore;
+using MusicPortal.Models.ViewModel;
 
 namespace MusicPortal.Models.Repository
 {
@@ -12,20 +13,29 @@ namespace MusicPortal.Models.Repository
         {
             _context = context;
             _musicFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "Music");
+            if (!Directory.Exists(_musicFolderPath))
+            {
+                Directory.CreateDirectory(_musicFolderPath);
+            }
         }
 
         public async Task<IEnumerable<Music>> GetAllMusic()
         {
-            return await _context.Music.ToListAsync() ?? Enumerable.Empty<Music>();
+            return await _context.Music.ToListAsync();
         }
 
-        public async Task AddMusic(Music music, byte[] fileData)
+        public async Task AddMusic(MusicViewModel model, byte[] fileData)
         {
-            var filePath = Path.Combine(_musicFolderPath, music.MusicFile.FileName);
-
+            var filePath = Path.Combine(_musicFolderPath, model.MusicFile.FileName);
             await File.WriteAllBytesAsync(filePath, fileData);
 
-            music.FilePath = filePath;
+            var music = new Music
+            {
+                Title = model.Title,
+                Artist = model.Artist,
+                GenreId = model.GenreId,
+                FilePath = filePath
+            };
 
             _context.Music.Add(music);
             await _context.SaveChangesAsync();

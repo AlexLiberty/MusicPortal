@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicPortal.Models.DataBase;
 using MusicPortal.Models.Repository;
+using MusicPortal.Models.ViewModel;
 
 namespace MusicPortal.Controllers
 {
@@ -119,21 +120,29 @@ namespace MusicPortal.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMusic(Music music)
+        public async Task<IActionResult> AddMusic(MusicViewModel model)
         {
-            byte[] fileData = null;
-
-            if (music.MusicFile != null)
+            if (model.MusicFile != null)
             {
+                byte[] fileData;
                 using (var memoryStream = new MemoryStream())
                 {
-                    await music.MusicFile.CopyToAsync(memoryStream);
+                    await model.MusicFile.CopyToAsync(memoryStream);
                     fileData = memoryStream.ToArray();
                 }
-            }
 
-            await _musicRepository.AddMusic(music, fileData);
-            return Json(new { success = true });
+                try
+                {
+                    await _musicRepository.AddMusic(model, fileData);
+                    return Json(new { success = true });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error adding music: {ex.Message}");
+                    return Json(new { success = false, message = "An error occurred while adding the music." });
+                }
+            }
+            return Json(new { success = false, message = "No music file provided." });
         }
 
         [HttpPost]

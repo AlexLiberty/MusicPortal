@@ -1,7 +1,4 @@
 ﻿@model IEnumerable<MusicPortal.Models.DataBase.Music>
-@{
-    var genres = ViewBag.Genres as IEnumerable<MusicPortal.Models.DataBase.Genre>;
-}
 
 <div class="container mt-4">
     <h3>Music Management</h3>
@@ -24,8 +21,8 @@
                     <td>@music.Artist</td>
                     <td>@music.Genre?.Name</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editMusic(@music.Id, '@music.Title', '@music.Artist', @music.GenreId)">Edit</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteMusic(@music.Id)">Delete</button>
+                        <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "Admin")', @music.Id, @music.Title, @music.Artist, @music.GenreId)">Edit</button>
+                        <button type="button" class="btn btn-danger del" onclick="deleteMusic('@Url.Action("DeleteMusic", "Admin")', @music.Id)">Delete</button>
                     </td>
                 </tr>
             }
@@ -33,176 +30,5 @@
     </table>
 </div>
 
-<div class="modal fade" id="addMusicModal" tabindex="-1" role="dialog" aria-labelledby="addMusicModalLabel" aria-hidden="true">
-    <div class="modal-dialog centermodal" role="document">
-        <div class="modal-content addform">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addMusicModalLabel">Add Music</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="addMusicForm" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <br>
-                        <label for="musicTitle">Title</label>
-                        <input type="text" class="form-control  ppp" id="musicTitle" name="Title" required />
-                    </div>
-                    <div class="form-group">
-                        <br>
-                        <label for="musicArtist">Artist</label>
-                        <input type="text" class="form-control  ppp" id="musicArtist" name="Artist" required />
-                    </div>
-                    <div class="form-group">
-                        <br>
-                        <label for="musicGenre">Genre</label>
-                        <select class="form-control ppp" id="musicGenre" name="GenreId" required>
-                            @foreach (var genre in genres)
-                            {
-                                <option value="@genre.Id">@genre.Name</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <br><br>
-                        <label for="musicFile">File</label>
-                        <input type="file" class="form-control-file" id="musicFile" name="MusicFile" required />
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary conf">Add Music</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="editMusicModal" tabindex="-1" role="dialog" aria-labelledby="editMusicModalLabel" aria-hidden="true">
-    <div class="modal-dialog centermodal" role="document">
-        <div class="modal-content addform">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editMusicModalLabel">Edit Music</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="editMusicForm" enctype="multipart/form-data">
-                <input type="hidden" id="editMusicId" name="Id" />
-                <div class="modal-body">
-                    <div class="form-group">
-                        <br>
-                        <label for="editMusicTitle">Title</label>
-                        <input type="text" class="form-control ppp" id="editMusicTitle" name="Title" required />
-                    </div>
-                    <div class="form-group">
-                        <br>
-                        <label for="editMusicArtist">Artist</label>
-                        <input type="text" class="form-control ppp" id="editMusicArtist" name="Artist" required />
-                    </div>
-                    <div class="form-group">
-                        <br>
-                        <label for="editMusicGenre">Genre</label>
-                        <select class="form-control" id="editMusicGenre" name="GenreId" required>
-                            @foreach (var genre in genres)
-                            {
-                                <option value="@genre.Id">@genre.Name</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <br>
-                        <label for="editMusicFile">File (optional)</label>
-                        <input type="file" class="form-control-file" id="editMusicFile" name="MusicFile" />
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary conf">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-
-            $('#addMusicForm').on('submit', function (e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("AddMusic", "Admin")',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        if (response.success) {
-                            Swal.fire('Success', 'Music added successfully!', 'success');
-                            location.reload();
-                        } else {
-                            Swal.fire('Error', 'An error occurred while adding the music.', 'error');
-                        }
-                    }
-                });
-            });
-
-            $('#editMusicForm').on('submit', function (e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("EditMusic", "Admin")',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        if (response.success) {
-                            Swal.fire('Success', 'Music updated successfully!', 'success');
-                            location.reload();
-                        } else {
-                            Swal.fire('Error', 'An error occurred while updating the music.', 'error');
-                        }
-                    }
-                });
-            });
-        });
-
-        function editMusic(id, title, artist, genreId) {
-            $('#editMusicId').val(id);
-            $('#editMusicTitle').val(title);
-            $('#editMusicArtist').val(artist);
-            $('#editMusicGenre').val(genreId);
-            $('#editMusicModal').modal('show');
-        }
-
-        function deleteMusic(id) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("DeleteMusic", "Admin")',
-                        data: { id: id },
-                        success: function (response) {
-                            if (response.success) {
-                                Swal.fire('Deleted!', 'The music has been deleted.', 'success');
-                                location.reload();
-                            } else {
-                                Swal.fire('Error', 'An error occurred while deleting the music.', 'error');
-                            }
-                        }
-                    });
-                }
-            });
-        }
-    </script>
-}
+@Html.Partial("AddMusicModal")
+@Html.Partial("EditMusicModal")

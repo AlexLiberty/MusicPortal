@@ -77,12 +77,10 @@ async function updateTabContent() {
             }
         }
 
-        const [confirmationHtml, managementHtml, genreHtml, musicHtml] = await Promise.all([
-            fetchHtml('/Admin/UserConfirmationPartial'),
-            fetchHtml('/Admin/UserManagementPartial'),
-            fetchHtml('/Admin/GenreManagementPartial'),
-            fetchHtml('/Admin/MusicManagementPartial')
-        ]);
+        const confirmationHtml = await fetchHtml('/Admin/UserConfirmationPartial');
+        const managementHtml = await fetchHtml('/Admin/UserManagementPartial');
+        const genreHtml = await fetchHtml('/Admin/GenreManagementPartial');
+        const musicHtml = await fetchHtml('/Admin/MusicManagementPartial');
 
         document.querySelector(tabSelectors.confirmation).innerHTML = confirmationHtml;
         document.querySelector(tabSelectors.management).innerHTML = managementHtml;
@@ -136,15 +134,51 @@ function deleteGenre(url, id) {
     });
 }
 
+function deleteMusic(url, id) {
+    saveTabState();
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#48e945',
+        cancelButtonColor: '#e91212',
+        customClass: {
+            container: 'swal-container',
+            popup: 'swal-popup',
+            title: 'swal-title',
+            confirmButton: 'confirm-btn',
+            cancelButton: 'cancel-btn'
+        },
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: { id: id },
+                success: function (response) {
+                    if (response && response.success) {
+                        Swal.fire('Deleted!', 'The genre has been deleted.', 'success').then(async () => {
+                            await updateTabContent();
+                        });
+                    } else {
+                        Swal.fire('Error', response && response.message || 'An error occurred while deleting the genre.', 'error');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    Swal.fire('Error', 'An error occurred while deleting the genre.', 'error');
+                }
+            });
+        }
+    });
+}
+
 function editGenreModal(url, id, name) {
     document.getElementById('editGenreId').value = id;
     document.getElementById('editGenreName').value = name;
     $('#editGenreModal').modal('show');
-}
-
-function addGenreModal(url, name) {
-    document.getElementById('addGenreName').value = name;
-    $('#addGenreModal').modal('show');
 }
 
 function submitEditGenreForm() {
@@ -156,12 +190,12 @@ function submitEditGenreForm() {
         success: function(response) {
             if (response.success) {
                 Swal.fire('Success!', 'Genre successfully edited.', 'success').then(() => {
-                    $('#editGenreModal').modal('hide');
-                    updateTabContent();
+                    $('#editGenreModal').modal('hide');                    
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
             }
+            updateTabContent();
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
@@ -180,15 +214,77 @@ function submitAddGenreForm() {
             if (response.success) {
                 Swal.fire('Success!', 'Genre successfully add.', 'success').then(() => {
                     $('#addGenreModal').modal('hide');
-                    updateTabContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
             }
+            updateTabContent();
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
             Swal.fire('Error', 'An error occurred while editing the genre.', 'error');
+        }        
+    });
+}
+
+function submitAddMusicForm() {
+    var form = $('#addMusicForm')[0];
+    var formData = new FormData(form);
+
+    $.ajax({
+        type: 'POST',
+        url: $(form).attr('action'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            if (response.success) {
+                Swal.fire('Success!', 'Music successfully added.', 'success').then(() => {
+                    $('#addMusicModal').modal('hide');
+                    location.reload();
+                });
+            } else {
+                Swal.fire('Error', response.message || 'An error occurred while adding the music.', 'error');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            Swal.fire('Error', 'An error occurred while adding the music.', 'error');
+        }
+    });
+}
+
+function editMusicModal(id, title, artist, genreId) {
+    document.getElementById('editMusicId').value = id;
+    document.getElementById('editMusicTitle').value = title;
+    document.getElementById('editMusicArtist').value = artist;
+    document.getElementById('editMusicGenre').value = genreId;
+    $('#editMusicModal').modal('show');
+}
+
+function submitEditMusicForm() {
+    var form = $('#editMusicForm')[0];
+    var formData = new FormData(form);
+
+    $.ajax({
+        type: 'POST',
+        url: $(form).attr('action'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            if (response.success) {
+                Swal.fire('Success!', 'Music successfully edited.', 'success').then(() => {
+                    $('#editMusicModal').modal('hide');
+                    location.reload();
+                });
+            } else {
+                Swal.fire('Error', response.message || 'An error occurred while editing the music.', 'error');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            Swal.fire('Error', 'An error occurred while editing the music.', 'error');
         }
     });
 }

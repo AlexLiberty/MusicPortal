@@ -1,0 +1,45 @@
+﻿@{
+    var genres = ViewBag.Genres as IEnumerable<MusicPortal.Models.DataBase.Genre>;
+}
+<div class="modal fade" id="addMusicModal" tabindex="-1" role="dialog" aria-labelledby="addMusicModalLabel" aria-hidden="true">
+    <div class="modal-dialog centermodal" role="document">
+        <div class="modal-content addform">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMusicModalLabel">Add Music</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("AddMusic", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", id = "addMusicForm" }))
+            {
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="musicTitle">Title</label>
+                        <input type="text" class="form-control ppp" id="musicTitle" name="Title" required />
+                    </div><br>
+                    <div class="form-group">
+                        <label for="musicArtist">Artist</label>
+                        <input type="text" class="form-control ppp" id="musicArtist" name="Artist" required />
+                    </div><br>
+                    <div class="form-group">
+                        <label for="musicGenre">Genre</label>
+                        <select class="form-control ppp" id="musicGenre" name="GenreId" required>
+                            @foreach (var genre in genres)
+                            {
+                                <option value="@genre.Id">@genre.Name</option>
+                            }
+                        </select>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="musicFile">File</label>
+                        <input type="file" class="form-control-file" id="musicFile" name="MusicFile" required />
+                    </div>
+                </div>
+                <br>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary conf" onclick="submitAddMusicForm()">Add Music</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
