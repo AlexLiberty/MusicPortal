@@ -21,7 +21,7 @@
                     <td>@music.Artist</td>
                     <td>@music.Genre?.Name</td>
                     <td>
-                        <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "Admin")', @music.Id, @music.Title, @music.Artist, @music.GenreId)">Edit</button>
+                        <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "Admin")', @music.Id, '@music.Title', '@music.Artist', '@music.GenreId')">Edit</button>
                         <button type="button" class="btn btn-danger del" onclick="deleteMusic('@Url.Action("DeleteMusic", "Admin")', @music.Id)">Delete</button>
                     </td>
                 </tr>

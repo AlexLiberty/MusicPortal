@@ -262,6 +262,7 @@ function editMusicModal(url, id, title, artist, genreId) {
     $('#editMusicModal').modal('show');
 }
 
+
 function submitEditMusicForm() {
     var form = $('#editMusicForm')[0];
     var formData = new FormData(form);
