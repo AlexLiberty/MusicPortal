@@ -33,7 +33,7 @@
                             <td>@music.Genre?.Name</td>
                             <td>
                                 <button type="button" class="btn btn-danger play" onclick="playMusic('@Url.Action("PlayMusic", new { id = music.Id })', @music.Id)">Play</button>
-                                <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "Admin")', @music.Id, @music.Title, @music.Artist, @music.GenreId)">Edit</button>
+                                <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "Admin")', @music.Id, '@music.Title', '@music.Artist', '@music.GenreId')">Edit</button>
                                 <button type="button" class="btn btn-danger del" onclick="ideleteMusic('@Url.Action("DeleteMusic", "Admin")', @music.Id)">Delete</button>
                             </td>
                         </tr>
@@ -69,7 +69,7 @@
         </table>
     }
 </div>
-
+@Html.Partial("EditMusicModal")
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>

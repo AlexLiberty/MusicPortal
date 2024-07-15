@@ -277,7 +277,6 @@ function submitEditMusicForm() {
             if (response.success) {
                 Swal.fire('Success!', 'Music successfully edited.', 'success').then(() => {
                     $('#editMusicModal').modal('hide');
-                    location.reload();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the music.', 'error');
@@ -319,7 +318,7 @@ function ideleteMusic(url, id) {
                     } else {
                         Swal.fire('Error', response && response.message || 'An error occurred while deleting the genre.', 'error');
                     }
-                    location.reload();
+                    updateTabContent();
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
