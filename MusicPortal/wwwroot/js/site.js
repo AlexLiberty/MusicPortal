@@ -218,7 +218,7 @@ function submitAddGenreForm() {
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
             }
-            updateTabContent();
+            location.reload();
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
@@ -254,7 +254,7 @@ function submitAddMusicForm() {
     });
 }
 
-function editMusicModal(id, title, artist, genreId) {
+function editMusicModal(url, id, title, artist, genreId) {
     document.getElementById('editMusicId').value = id;
     document.getElementById('editMusicTitle').value = title;
     document.getElementById('editMusicArtist').value = artist;
@@ -285,6 +285,46 @@ function submitEditMusicForm() {
         error: function (xhr, status, error) {
             console.error('Error:', error);
             Swal.fire('Error', 'An error occurred while editing the music.', 'error');
+        }
+    });
+}
+
+function ideleteMusic(url, id) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#48e945',
+        cancelButtonColor: '#e91212',
+        customClass: {
+            container: 'swal-container',
+            popup: 'swal-popup',
+            title: 'swal-title',
+            confirmButton: 'confirm-btn',
+            cancelButton: 'cancel-btn'
+        },
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: { id: id },
+                success: function (response) {
+                    if (response && response.success) {
+                        Swal.fire('Deleted!', 'The genre has been deleted.', 'success').then(() => {
+                        });
+                    } else {
+                        Swal.fire('Error', response && response.message || 'An error occurred while deleting the genre.', 'error');
+                    }
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    Swal.fire('Error', 'An error occurred while deleting the genre.', 'error');
+                }
+            });
         }
     });
 }

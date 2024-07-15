@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<MusicPortal.Models.DataBase.Music>
+@{
     ViewData["Title"] = "Home Page";
     var isAuthenticated = ViewContext.HttpContext.Session.GetString("UserId") != null;
     var isAdmin = ViewData["IsAdmin"] != null && (bool)ViewData["IsAdmin"];
@@ -6,16 +7,72 @@
 
 <div class="text-center">
     <h1 class="display-4">Best Music Portal</h1>
-
+</div>
+<hr>
+<br>
+<div>
     @if (isAuthenticated)
     {
         @if (isAdmin)
         {
-
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Genre</th>
+                        <th>Play</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var music in Model)
+                    {
+                        <tr>
+                            <td>@music.Title</td>
+                            <td>@music.Artist</td>
+                            <td>@music.Genre?.Name</td>
+                            <td>
+                                <button type="button" class="btn btn-danger play" onclick="playMusic('@Url.Action("PlayMusic", new { id = music.Id })', @music.Id)">Play</button>
+                                <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "Admin")', @music.Id, @music.Title, @music.Artist, @music.GenreId)">Edit</button>
+                                <button type="button" class="btn btn-danger del" onclick="ideleteMusic('@Url.Action("DeleteMusic", "Admin")', @music.Id)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
     }
     else
     {
-       
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Genre</th>
+                    <th style="width: 20%">Play</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var music in Model)
+                {
+                    <tr>
+                        <td>@music.Title</td>
+                        <td>@music.Artist</td>
+                        <td>@music.Genre?.Name</td>
+                        <td>
+                        <button type="button" class="btn btn-danger play" onclick="playMusic('@Url.Action("PlayMusic", new { id = music.Id })', @music.Id)">Play</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}

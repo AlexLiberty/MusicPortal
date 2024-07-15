@@ -9,17 +9,23 @@ namespace MusicPortal.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUserRepository _userRepository;
+        private readonly IMusicRepository _musicRepository;
+        private readonly IGenreRepository _genreRepository;
 
-        public HomeController(ILogger<HomeController> logger, IUserRepository userRepository)
+        public HomeController(ILogger<HomeController> logger, IUserRepository userRepository, IMusicRepository musicRepository, IGenreRepository genreRepository)
         {
             _logger = logger;
             _userRepository = userRepository;
+            _musicRepository = musicRepository;
+            _genreRepository = genreRepository;
         }
 
         public async Task<IActionResult> Index()
         {
             var userIdString = HttpContext.Session.GetString("UserId");
             var userRole = HttpContext.Session.GetString("UserRole");
+            var genres = await _genreRepository.GetAllGenres();
+            var music = await _musicRepository.GetAllMusic();
             if (int.TryParse(userIdString, out var userId))
             {
                 var user = await _userRepository.GetUserById(userId);
@@ -30,7 +36,10 @@ namespace MusicPortal.Controllers
                 }
             }
 
-            return View();
+            ViewData["Genres"] = genres;
+            ViewData["Music"] = music;
+
+            return View(music);
         }
 
         public IActionResult Privacy()
