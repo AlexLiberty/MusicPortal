@@ -190,12 +190,12 @@ function submitEditGenreForm() {
         success: function(response) {
             if (response.success) {
                 Swal.fire('Success!', 'Genre successfully edited.', 'success').then(() => {
-                    $('#editGenreModal').modal('hide');                    
+                    $('#editGenreModal').modal('hide'); 
+                    updateTabContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
             }
-            updateTabContent();
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
@@ -205,20 +205,25 @@ function submitEditGenreForm() {
 }
 
 function submitAddGenreForm() {
-    var form = $('#addGenreForm');
+   
+    var form = $('#addGenreForm')[0];
+    var formData = new FormData(form);
+
     $.ajax({
         type: 'POST',
-        url: form.attr('action'),
-        data: form.serialize(),
+        url: $(form).attr('action'),
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function (response) {
             if (response.success) {
-                Swal.fire('Success!', 'Genre successfully add.', 'success').then(() => {
-                    $('#addGenreModal').modal('hide');
+                Swal.fire('Success!', 'Genre successfully add.', 'success').then(async () => {
+                   $('#addGenreModal').modal('hide');
+                    await updateTabContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
             }
-            location.reload();
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
@@ -239,9 +244,9 @@ function submitAddMusicForm() {
         contentType: false,
         success: function (response) {
             if (response.success) {
-                Swal.fire('Success!', 'Music successfully added.', 'success').then(() => {
+                Swal.fire('Success!', 'Music successfully added.', 'success').then(async () => {
                     $('#addMusicModal').modal('hide');
-                    location.reload();
+                    await updateContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while adding the music.', 'error');
@@ -275,8 +280,9 @@ function submitEditMusicForm() {
         contentType: false,
         success: function (response) {
             if (response.success) {
-                Swal.fire('Success!', 'Music successfully edited.', 'success').then(() => {
+                Swal.fire('Success!', 'Music successfully edited.', 'success').then(async () => {
                     $('#editMusicModal').modal('hide');
+                    await updateContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the music.', 'error');
@@ -313,12 +319,12 @@ function ideleteMusic(url, id) {
                 data: { id: id },
                 success: function (response) {
                     if (response && response.success) {
-                        Swal.fire('Deleted!', 'The genre has been deleted.', 'success').then(() => {
+                        Swal.fire('Deleted!', 'The genre has been deleted.', 'success').then(async () => {
+                            await updateContent();
                         });
                     } else {
                         Swal.fire('Error', response && response.message || 'An error occurred while deleting the genre.', 'error');
-                    }
-                    updateTabContent();
+                    }                    
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -327,4 +333,21 @@ function ideleteMusic(url, id) {
             });
         }
     });
+}
+
+async function updateContent()
+{
+    try {
+        const response = await $.ajax({
+            url: 'Home/Index',
+            type: 'POST',
+            dataType: 'html'
+        });
+
+        $('table').html($(response).find('table').html());
+
+    } catch (error) {
+        console.error('Error updating content:', error);
+        Swal.fire('Error', 'An error occurred while updating the content.', 'error');
+    }
 }
