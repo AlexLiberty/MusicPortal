@@ -70,5 +70,9 @@ namespace MusicPortal.Models.Repository
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task<Music> GetMusicById(int id)
+        {
+            return await _context.Music.FindAsync(id);
+        }
     }
 }

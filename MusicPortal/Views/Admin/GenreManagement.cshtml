@@ -8,7 +8,7 @@
         <thead>
             <tr>
                 <th style="width: 70%">Name</th>
-                <th>Actions</th>
+                <th style="text-align:center">Actions</th>
             </tr>
         </thead>
         <tbody id="genreTableBody">
@@ -16,7 +16,7 @@
             {
                 <tr>
                     <td>@genre.Name</td>
-                    <td>
+                    <td style="text-align:center">
                         <button type="button" class="btn btn-warning blo" onclick="editGenreModal('@Url.Action("EditGenre", "Admin")', @genre.Id, '@genre.Name')">Edit</button>
                         <button type="button" class="btn btn-danger del" onclick="deleteGenre('@Url.Action("DeleteGenre", "Admin")', @genre.Id)">Delete</button>
                     </td>

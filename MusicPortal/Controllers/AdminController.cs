@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MusicPortal.Models.DataBase;
 using MusicPortal.Models.Repository;
 using MusicPortal.Models.ViewModel;
@@ -168,6 +169,18 @@ namespace MusicPortal.Controllers
         {
             await _musicRepository.DeleteMusic(id);
             return Json(new { success = true });
+        }
+
+        public async Task<IActionResult> PlayMusic(int id)
+        {
+            var music = await _musicRepository.GetMusicById(id);
+            if (music == null)
+            {
+                return NotFound();
+            }
+
+            var musicUrl = Url.Content($"~/Music/{Path.GetFileName(music.FilePath)}");
+            return Json(new { url = musicUrl });
         }
     }
 }

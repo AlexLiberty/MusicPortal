@@ -335,6 +335,15 @@ function ideleteMusic(url, id) {
     });
 }
 
+$(document).ready(function () {
+    $(".custom-close-btn").click(function () {
+        var modal = $(this).closest(".modal");
+        if (modal.length) {
+            modal.modal('hide');
+        }
+    });
+});
+
 async function updateContent()
 {
     try {
@@ -350,4 +359,52 @@ async function updateContent()
         console.error('Error updating content:', error);
         Swal.fire('Error', 'An error occurred while updating the content.', 'error');
     }
+}
+
+//function playMusic(url) {
+//    $.getJSON(url, function (data) {
+//        if (data && data.url) {
+//            console.log("Setting music source:", data.url);
+//            $('#musicSource').attr('src', data.url);
+//            var audioPlayer = $('#musicPlayer')[0];
+//            audioPlayer.load();
+//            $('#playMusicModal').modal('show');
+
+//            $('#playMusicModal').on('shown.bs.modal', function () {
+//                console.log("Attempting to play music");
+//                audioPlayer.play().catch(function (error) {
+//                    console.error("Error playing music:", error);
+//                });
+//            });
+//        } else {
+//            console.error("Invalid response from server.");
+//        }
+//    }).fail(function () {
+//        console.error("Error fetching music URL.");
+//    });
+//}
+
+function playMusic(url) {
+    $.getJSON(url, function (data) {
+        if (data && data.url) {
+            console.log("Setting music source:", data.url);
+            $('#musicSource').attr('src', data.url);
+            var audioPlayer = $('#musicPlayer')[0];
+            audioPlayer.pause(); // Остановить плеер, если он уже воспроизводится
+            audioPlayer.currentTime = 0; // Установить время на начало
+            audioPlayer.load(); // Перезагрузить аудиофайл
+            $('#playMusicModal').modal('show');
+
+            $('#playMusicModal').on('shown.bs.modal', function () {
+                console.log("Attempting to play music");
+                audioPlayer.play().catch(function (error) {
+                    console.error("Error playing music:", error);
+                });
+            });
+        } else {
+            console.error("Invalid response from server.");
+        }
+    }).fail(function () {
+        console.error("Error fetching music URL.");
+    });
 }

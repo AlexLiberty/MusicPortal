@@ -9,7 +9,7 @@
             <th>Name</th>
             <th>Status</th>
             <th>Registration Date</th>
-            <th>Actions</th>
+            <th style="text-align:center">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +20,7 @@
                 <td>@user.Name</td>
                 <td>@(user.IsBlocked ? "Blocked" : "Active")</td>
                 <td>@user.Timestamp</td>
-                <td>
+                <td style="text-align:center">
                     @if (user.IsBlocked)
                     {
                         <button type="button" class="btn btn-primary unbl" onclick="confirmAction('@Url.Action("UnblockUser", "Admin")', @user.Id, 'Unblock')">Unblock</button>

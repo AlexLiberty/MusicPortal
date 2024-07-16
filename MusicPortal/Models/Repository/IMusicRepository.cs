@@ -9,5 +9,6 @@ namespace MusicPortal.Models.Repository
         Task AddMusic(MusicViewModel model, byte[] fileData);
         Task UpdateMusic(Music music, byte[] fileData = null);
         Task DeleteMusic(int id);
+        Task<Music> GetMusicById(int id);
     }
 }

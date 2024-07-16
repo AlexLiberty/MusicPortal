@@ -8,7 +8,7 @@
             <th>Email</th>
             <th>Name</th>
             <th>Registration Date</th>
-            <th>Actions</th>
+            <th style="text-align:center">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -18,7 +18,7 @@
                 <td>@user.Email</td>
                 <td>@user.Name</td>
                 <td>@user.Timestamp</td>
-                <td>
+                <td style="text-align:center">
                     <button type="button" class="btn btn-success conf" onclick="confirmAction('@Url.Action("ConfirmUser", "Admin")', @user.Id, 'Confirm')">Confirm</button>
                     <button type="button" class="btn btn-danger del" onclick="confirmAction('@Url.Action("DeleteUser", "Admin")', @user.Id, 'Delete')">Delete</button>
                 </td>
