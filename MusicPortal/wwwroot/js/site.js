@@ -390,9 +390,9 @@ function playMusic(url) {
             console.log("Setting music source:", data.url);
             $('#musicSource').attr('src', data.url);
             var audioPlayer = $('#musicPlayer')[0];
-            audioPlayer.pause(); // Остановить плеер, если он уже воспроизводится
-            audioPlayer.currentTime = 0; // Установить время на начало
-            audioPlayer.load(); // Перезагрузить аудиофайл
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0; 
+            audioPlayer.load();
             $('#playMusicModal').modal('show');
 
             $('#playMusicModal').on('shown.bs.modal', function () {
