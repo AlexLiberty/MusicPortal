@@ -12,7 +12,7 @@ namespace MusicPortal.Models.Repository
         public MusicRepository(MusicPortalContext context)
         {
             _context = context;
-            _musicFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "Music");
+            _musicFolderPath = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "Music");
             if (!Directory.Exists(_musicFolderPath))
             {
                 Directory.CreateDirectory(_musicFolderPath);

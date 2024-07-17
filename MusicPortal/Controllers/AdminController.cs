@@ -171,7 +171,6 @@ namespace MusicPortal.Controllers
             return Json(new { success = true });
         }
 
-         [HttpGet]
         public async Task<IActionResult> PlayMusic(int id)
         {
             var music = await _musicRepository.GetMusicById(id);
@@ -180,7 +179,7 @@ namespace MusicPortal.Controllers
                 return NotFound();
             }
 
-            var musicUrl = Url.Content($"~/Music/{Path.GetFileName(music.FilePath)}");
+            var musicUrl = Url.Content($"/Music/{Path.GetFileName(music.FilePath)}");
             return Json(new { url = musicUrl });
         }
     }
