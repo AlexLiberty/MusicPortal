@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MusicPortal.Models.DataBase;
 using MusicPortal.Models.Repository;
 using MusicPortal.Models.ViewModel;
