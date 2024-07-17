@@ -219,7 +219,7 @@ function submitAddGenreForm() {
             if (response.success) {
                 Swal.fire('Success!', 'Genre successfully add.', 'success').then(async () => {
                    $('#addGenreModal').modal('hide');
-                    await updateTabContent();
+                    await updateContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
