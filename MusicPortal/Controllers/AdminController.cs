@@ -171,6 +171,7 @@ namespace MusicPortal.Controllers
             return Json(new { success = true });
         }
 
+         [HttpGet]
         public async Task<IActionResult> PlayMusic(int id)
         {
             var music = await _musicRepository.GetMusicById(id);
