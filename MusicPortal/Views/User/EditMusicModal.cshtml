@@ -1,0 +1,52 @@
+﻿@{
+    var genres = ViewBag.Genres as IEnumerable<MusicPortal.Models.DataBase.Genre>;
+}
+
+<div class="modal fade" id="editMusicModal" tabindex="-1" role="dialog" aria-labelledby="editMusicModalLabel" aria-hidden="true">
+    <div class="modal-dialog centermodal" role="document">
+        <div class="modal-content addform">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editMusicModalLabel">Edit Music</h5>
+                <button type="button" class="close custom-close-btn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Html.BeginForm("EditMusic", "User", FormMethod.Post, new { id = "editMusicForm" }))
+            {
+                <input type="hidden" id="editMusicId" name="Id" />
+                <div class="modal-body">
+                    <div class="form-group">
+                        <br>
+                        <label for="editMusicTitle">Title</label>
+                        <input type="text" class="form-control ppp" id="editMusicTitle" name="Title" required />
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <label for="editMusicArtist">Artist</label>
+                        <input type="text" class="form-control ppp" id="editMusicArtist" name="Artist" required />
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <label for="editMusicGenre">Genre</label>
+                        <select class="form-control" id="editMusicGenre" name="GenreId" required>
+                            @foreach (var genre in genres)
+                            {
+                                <option value="@genre.Id">@genre.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <br><br>
+                        <label for="editMusicFile">File</label>
+                        <input type="file" class="form-control-file" id="editMusicFile" name="MusicFile" />
+                    </div>
+                </div>
+                <br>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary conf" onclick="submitEditMusicForm()">Save Changes</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

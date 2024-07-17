@@ -205,7 +205,6 @@ function submitEditGenreForm() {
 }
 
 function submitAddGenreForm() {
-   
     var form = $('#addGenreForm')[0];
     var formData = new FormData(form);
 
@@ -219,7 +218,7 @@ function submitAddGenreForm() {
             if (response.success) {
                 Swal.fire('Success!', 'Genre successfully add.', 'success').then(async () => {
                    $('#addGenreModal').modal('hide');
-                    await updateContent();
+                    await updateTabContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
@@ -246,7 +245,7 @@ function submitAddMusicForm() {
             if (response.success) {
                 Swal.fire('Success!', 'Music successfully added.', 'success').then(async () => {
                     $('#addMusicModal').modal('hide');
-                    await updateContent();
+                    await updateTabContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while adding the music.', 'error');
@@ -282,7 +281,7 @@ function submitEditMusicForm() {
             if (response.success) {
                 Swal.fire('Success!', 'Music successfully edited.', 'success').then(async () => {
                     $('#editMusicModal').modal('hide');
-                    await updateContent();
+                    await updateTabContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the music.', 'error');

@@ -31,6 +31,12 @@
                                     <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Panel</a>
                                 </li>
                             }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Index">User Panel</a>
+                                </li>
+                            }
                             <li class="nav-item">
                                 <a class="nav-link text-dark">Hello, @HttpContextAccessor.HttpContext.Session.GetString("UserName")</a>
                             </li>
