@@ -182,6 +182,7 @@ function editGenreModal(url, id, name) {
 }
 
 function submitEditGenreForm() {
+    saveTabState();
     var form = $('#editGenreForm');
     $.ajax({
         type: 'POST',
@@ -189,9 +190,9 @@ function submitEditGenreForm() {
         data: form.serialize(),
         success: function(response) {
             if (response.success) {
-                Swal.fire('Success!', 'Genre successfully edited.', 'success').then(() => {
+                Swal.fire('Success!', 'Genre successfully edited.', 'success').then(async () => {
                     $('#editGenreModal').modal('hide'); 
-                    updateTabContent();
+                    await updateTabContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
@@ -219,13 +220,7 @@ function submitAddGenreForm() {
             if (response.success) {
                 Swal.fire('Success!', 'Genre successfully added.', 'success').then(async () => {
                     $('#addGenreModal').find('.close').click();
-                    await updateTabContent()
-                        .then(() => {
-                            console.log('Tab content updated successfully');
-                        })
-                        .catch(error => {
-                            console.error('Error updating tab content:', error);
-                        });
+                    await updateTabContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while adding the genre.', 'error');
@@ -250,15 +245,9 @@ function submitAddMusicForm() {
         contentType: false,
         success: function (response) {
             if (response.success) {
-                Swal.fire('Success!', 'Music successfully added.', 'success').then(() => {
+                Swal.fire('Success!', 'Music successfully added.', 'success').then(async () => {
                     $('#addMusicModal').find('.close').click();
-                    updateTabContent()
-                        .then(() => {
-                            console.log('Tab content updated successfully');
-                        })
-                        .catch(error => {
-                            console.error('Error updating tab content:', error);
-                        });
+                    await updateTabContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while adding the genre.', 'error');
@@ -281,6 +270,7 @@ function editMusicModal(url, id, title, artist, genreId) {
 
 
 function submitEditMusicForm() {
+    saveTabState();
     var form = $('#editMusicForm')[0];
     var formData = new FormData(form);
 
