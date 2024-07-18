@@ -17,7 +17,6 @@ namespace MusicPortal.Models.DataBase
         public bool IsAdmin { get; set; }
         public bool IsBlocked { get; set; }
         public string Timestamp { get; set; }
-
         public User()
         {
             Timestamp = DateTime.Now.ToString("f");

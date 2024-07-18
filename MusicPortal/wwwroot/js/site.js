@@ -216,21 +216,26 @@ function submitAddGenreForm() {
         contentType: false,
         success: function (response) {
             if (response.success) {
-                Swal.fire('Success!', 'Genre successfully add.', 'success').then(async () => {
-                   $('#addGenreModal').modal('hide');
-                    await updateTabContent();
+                Swal.fire('Success!', 'Genre successfully added.', 'success').then(() => {
+                    $('#addGenreModal').find('.close').click();
+                    updateTabContent()
+                        .then(() => {
+                            console.log('Tab content updated successfully');
+                        })
+                        .catch(error => {
+                            console.error('Error updating tab content:', error);
+                        });
                 });
             } else {
-                Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
+                Swal.fire('Error', response.message || 'An error occurred while adding the genre.', 'error');
             }
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
-            Swal.fire('Error', 'An error occurred while editing the genre.', 'error');
-        }        
+            Swal.fire('Error', 'An error occurred while adding the genre.', 'error');
+        }
     });
 }
-
 function submitAddMusicForm() {
     var form = $('#addMusicForm')[0];
     var formData = new FormData(form);
@@ -243,17 +248,23 @@ function submitAddMusicForm() {
         contentType: false,
         success: function (response) {
             if (response.success) {
-                Swal.fire('Success!', 'Music successfully added.', 'success').then(async () => {
-                    $('#addMusicModal').modal('hide');
-                    await updateTabContent();
+                Swal.fire('Success!', 'Music successfully added.', 'success').then(() => {
+                    $('#addMusicModal').find('.close').click();
+                    updateTabContent()
+                        .then(() => {
+                            console.log('Tab content updated successfully');
+                        })
+                        .catch(error => {
+                            console.error('Error updating tab content:', error);
+                        });
                 });
             } else {
-                Swal.fire('Error', response.message || 'An error occurred while adding the music.', 'error');
+                Swal.fire('Error', response.message || 'An error occurred while adding the genre.', 'error');
             }
         },
         error: function (xhr, status, error) {
             console.error('Error:', error);
-            Swal.fire('Error', 'An error occurred while adding the music.', 'error');
+            Swal.fire('Error', 'An error occurred while adding the genre.', 'error');
         }
     });
 }
