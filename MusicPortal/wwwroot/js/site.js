@@ -205,6 +205,7 @@ function submitEditGenreForm() {
 }
 
 function submitAddGenreForm() {
+    saveTabState();
     var form = $('#addGenreForm')[0];
     var formData = new FormData(form);
 
@@ -216,9 +217,9 @@ function submitAddGenreForm() {
         contentType: false,
         success: function (response) {
             if (response.success) {
-                Swal.fire('Success!', 'Genre successfully added.', 'success').then(() => {
+                Swal.fire('Success!', 'Genre successfully added.', 'success').then(async () => {
                     $('#addGenreModal').find('.close').click();
-                    updateTabContent()
+                    await updateTabContent()
                         .then(() => {
                             console.log('Tab content updated successfully');
                         })
