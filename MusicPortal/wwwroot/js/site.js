@@ -237,6 +237,7 @@ function submitAddGenreForm() {
     });
 }
 function submitAddMusicForm() {
+    saveTabState();
     var form = $('#addMusicForm')[0];
     var formData = new FormData(form);
 
@@ -379,12 +380,16 @@ function playMusic(url) {
             var audioPlayer = $('#musicPlayer')[0];
             audioPlayer.load();
             $('#playMusicModal').modal('show');
-
             $('#playMusicModal').on('shown.bs.modal', function () {
                 console.log("Attempting to play music");
                 audioPlayer.play().catch(function (error) {
                     console.error("Error playing music:", error);
                 });
+            });
+            $('#playMusicModal').on('hidden.bs.modal', function () {
+                console.log("Stopping music");
+                audioPlayer.pause();
+                audioPlayer.currentTime = 0;
             });
         } else {
             console.error("Invalid response from server.");

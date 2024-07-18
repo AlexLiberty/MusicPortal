@@ -13,10 +13,6 @@ namespace MusicPortal.Models.Repository
         {
             _context = context;
             _musicFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Music");
-            if (!Directory.Exists(_musicFolderPath))
-            {
-                Directory.CreateDirectory(_musicFolderPath);
-            } 
         }
 
         public async Task<IEnumerable<Music>> GetAllMusic()
