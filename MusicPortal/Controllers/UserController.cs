@@ -9,17 +9,20 @@ namespace MusicPortal.Controllers
     {
         private readonly IGenreRepository _genreRepository;
         private readonly IMusicRepository _musicRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(IGenreRepository genreRepository, IMusicRepository musicRepository)
+        public UserController(IGenreRepository genreRepository, IMusicRepository musicRepository, IUserRepository userRepository )
         {
             _genreRepository = genreRepository;
             _musicRepository = musicRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<IActionResult> Index()
         {
             var genres = await _genreRepository.GetAllGenres();
             var music = await _musicRepository.GetAllMusic();
+            var users = await _userRepository.GetAllUsers();
             ViewData["Genres"] = genres;
             ViewData["Music"] = music;
 

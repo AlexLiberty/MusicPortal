@@ -6,10 +6,12 @@ namespace MusicPortal.Models.Repository
     public class UserRepository : IUserRepository
     {
         private readonly MusicPortalContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserRepository(MusicPortalContext context)
+        public UserRepository(MusicPortalContext context, IHttpContextAccessor httpContextAccessor )
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task RegisterUser(string email, string username, string password)
@@ -40,6 +42,15 @@ namespace MusicPortal.Models.Repository
                 string hashedPassword = SecurityHelper.HashPassword(password, user.Salt, 10000, 32);
                 if (user.Password == hashedPassword)
                 {
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddMinutes(30),
+                        HttpOnly = true,
+                        IsEssential = true
+                    };
+                    _httpContextAccessor.HttpContext.Response.Cookies.Append("UserId", user.Id.ToString(), cookieOptions);
+
+                    Console.WriteLine($"User ID {user.Id} set in cookie.");
                     return user;
                 }
             }
