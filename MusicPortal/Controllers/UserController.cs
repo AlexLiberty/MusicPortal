@@ -21,7 +21,7 @@ namespace MusicPortal.Controllers
         public async Task<IActionResult> Index()
         {
             var genres = await _genreRepository.GetAllGenres();
-            var music = await _musicRepository.GetAllMusic();
+            var music = await _musicRepository.GetAllMusicUserAdmin();
             var users = await _userRepository.GetAllUsers();
             ViewData["Genres"] = genres;
             ViewData["Music"] = music;

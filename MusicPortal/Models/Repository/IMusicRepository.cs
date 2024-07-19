@@ -6,6 +6,7 @@ namespace MusicPortal.Models.Repository
     public interface IMusicRepository
     {
         Task<IEnumerable<Music>> GetAllMusic();
+        Task<IEnumerable<Music>> GetAllMusicUserAdmin();
         Task AddMusic(MusicViewModel model, byte[] fileData);
         Task UpdateMusic(Music music, byte[] fileData = null);
         Task DeleteMusic(int id);

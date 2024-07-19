@@ -25,7 +25,7 @@ namespace MusicPortal.Controllers
             var confirmedUsers = users.Where(u => u.IsConfirmed && !u.IsAdmin);
 
             var genres = await _genreRepository.GetAllGenres();
-            var music = await _musicRepository.GetAllMusic();
+            var music = await _musicRepository.GetAllMusicUserAdmin();
 
             ViewData["NonAdminUsers"] = nonAdminUsers;
             ViewData["ConfirmedUsers"] = confirmedUsers;

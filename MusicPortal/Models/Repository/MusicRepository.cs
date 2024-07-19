@@ -21,7 +21,32 @@ namespace MusicPortal.Models.Repository
         {
             return await _context.Music.ToListAsync();
         }
+        public async Task<IEnumerable<Music>> GetAllMusicUserAdmin()
+        {
+            var userIdStr = _httpContextAccessor.HttpContext.Request.Cookies["UserId"];
+            if (string.IsNullOrEmpty(userIdStr) || !int.TryParse(userIdStr, out var userId))
+            {
+                Console.WriteLine("User ID is null or invalid in cookie.");
+                throw new UnauthorizedAccessException("User is not logged in.");
+            }
+            Console.WriteLine($"User ID {userId} retrieved from cookie.");
 
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                Console.WriteLine($"User with ID {userId} not found.");
+                throw new KeyNotFoundException($"User with ID {userId} not found.");
+            }
+
+            if (user.IsAdmin)
+            {
+                return await _context.Music.ToListAsync();
+            }
+            else 
+            {
+                return await _context.Music.Where(m => m.UserId == userId).ToListAsync();
+            }
+        }
         public async Task AddMusic(MusicViewModel model, byte[] fileData)
         {
             var userIdStr = _httpContextAccessor.HttpContext.Request.Cookies["UserId"];
