@@ -238,5 +238,44 @@ namespace MusicPortal.Controllers
 
             return PartialView("MusicTable", music);
         }
+
+        public async Task<IActionResult> GetFilteredAndSortedUsers(string column, string order, string status, string nameEmail)
+        {
+            var users = await _userRepository.GetAllUsers();
+
+            users = users.Where(u => u.IsConfirmed && !u.IsAdmin).ToList();
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                bool isBlocked = status == "Blocked";
+                users = users.Where(u => u.IsBlocked == isBlocked).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(nameEmail))
+            {
+                users = users.Where(u => u.Name.Contains(nameEmail, StringComparison.OrdinalIgnoreCase) ||
+                                          u.Email.Contains(nameEmail, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            switch (column.ToLower())
+            {
+                case "email":
+                    users = order == "asc" ? users.OrderBy(u => u.Email).ToList() : users.OrderByDescending(u => u.Email).ToList();
+                    break;
+                case "name":
+                    users = order == "asc" ? users.OrderBy(u => u.Name).ToList() : users.OrderByDescending(u => u.Name).ToList();
+                    break;
+                case "status":
+                    users = order == "asc" ? users.OrderBy(u => u.IsBlocked).ToList() : users.OrderByDescending(u => u.IsBlocked).ToList();
+                    break;
+                case "registrationdate":
+                    users = order == "asc" ? users.OrderBy(u => u.Timestamp).ToList() : users.OrderByDescending(u => u.Timestamp).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            return PartialView("ConfirmedUsersTable", users);
+        }
     }
 }

@@ -88,6 +88,7 @@ async function updateTabContent() {
         document.querySelector(tabSelectors.music).innerHTML = musicHtml;
 
         restoreTabState();
+        handleSortAndFilter();
     } catch (error) {
         console.error('Error:', error);
     }
@@ -531,5 +532,50 @@ $(document).ready(function () {
         var genreId = $('#genreFilter').val();
         var artist = $('#artistFilter').val();
         updateMusicTable(column, order, genreId, artist);
+    });
+});
+
+async function updateUserTable(column, order, status, nameEmail) {
+    try {
+        const response = await fetch('/Admin/GetFilteredAndSortedUsers?' + $.param({ column, order, status, nameEmail }));
+        if (response.ok) {
+            const data = await response.text();
+            $('#userTableBody').html(data);
+            var newOrder = order === 'asc' ? 'desc' : 'asc';
+            $('.sortable[data-column="' + column + '"]').data('order', newOrder);
+        } else {
+            console.error('Failed to fetch sorted and filtered users.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+function handleSortAndFilter() {
+    $('.sortable').on('click', function () {
+        var column = $(this).data('column');
+        var order = $(this).data('order');
+        var status = $('#statusFilter').val();
+        var nameEmail = $('#nameEmailFilter').val();
+        updateUserTable(column, order, status, nameEmail);
+    });
+
+    $('#statusFilter, #nameEmailFilter').on('change keyup', function () {
+        var column = $('.sortable[data-order]').data('column');
+        var order = $('.sortable[data-order]').data('order');
+        var status = $('#statusFilter').val();
+        var nameEmail = $('#nameEmailFilter').val();
+        updateUserTable(column, order, status, nameEmail);
+    });
+}
+$(document).ready(function () {
+    updateTabContent();
+
+    handleSortAndFilter();
+
+    $('.tab-links').on('click', function () {
+        const tab = $(this).data('tab');
+        $('#tab-content').load(tabSelectors[tab]);
+        updateTabContent();
     });
 });

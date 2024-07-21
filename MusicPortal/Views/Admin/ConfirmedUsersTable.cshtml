@@ -1,0 +1,22 @@
+﻿@model IEnumerable<MusicPortal.Models.DataBase.User>
+
+@foreach (var user in Model)
+{
+    <tr>
+        <td>@user.Email</td>
+        <td>@user.Name</td>
+        <td>@(user.IsBlocked ? "Blocked" : "Active")</td>
+        <td>@user.Timestamp</td>
+        <td style="text-align:center">
+            @if (user.IsBlocked)
+            {
+                <button type="button" class="btn btn-primary unbl" onclick="confirmAction('@Url.Action("UnblockUser", "Admin")', @user.Id, 'Unblock')">Unblock</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-warning blo" onclick="confirmAction('@Url.Action("BlockUser", "Admin")', @user.Id, 'Block')">Block</button>
+            }
+            <button type="button" class="btn btn-danger del" onclick="confirmAction('@Url.Action("DeleteUser", "Admin")', @user.Id, 'Delete')">Delete</button>
+        </td>
+    </tr>
+}
