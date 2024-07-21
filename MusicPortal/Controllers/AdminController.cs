@@ -204,5 +204,39 @@ namespace MusicPortal.Controllers
 
             return PartialView("MusicTable", music);
         }
+
+        public async Task<IActionResult> GetFilteredMusic(string column, string order, int? genreId, string artist)
+        {
+            var music = await _musicRepository.GetAllMusic();
+
+            if (genreId.HasValue)
+            {
+                music = music.Where(m => m.GenreId == genreId.Value).ToList();
+            }
+            if (!string.IsNullOrEmpty(artist))
+            {
+                music = music.Where(m => m.Artist.Contains(artist, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            switch (column.ToLower())
+            {
+                case "title":
+                    music = order == "asc" ? music.OrderBy(m => m.Title).ToList() : music.OrderByDescending(m => m.Title).ToList();
+                    break;
+                case "artist":
+                    music = order == "asc" ? music.OrderBy(m => m.Artist).ToList() : music.OrderByDescending(m => m.Artist).ToList();
+                    break;
+                case "genre":
+                    music = order == "asc" ? music.OrderBy(m => m.Genre?.Name).ToList() : music.OrderByDescending(m => m.Genre?.Name).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            var genres = await _genreRepository.GetAllGenres();
+            ViewBag.Genres = genres;
+
+            return PartialView("MusicTable", music);
+        }
     }
 }

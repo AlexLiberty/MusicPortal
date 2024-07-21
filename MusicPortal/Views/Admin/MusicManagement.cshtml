@@ -4,6 +4,23 @@
     <h3>Music Management</h3>
     <button class="addconf" data-toggle="modal" data-target="#addMusicModal">Add Music</button>
 
+    <div class="filter">
+        <div class="form-group">
+            <label for="genreFilter">Genre:</label>
+            <select id="genreFilter" class="form-control ppp">
+                <option value="">All Genres</option>
+                @foreach (var genre in ViewBag.Genres as List<MusicPortal.Models.DataBase.Genre>)
+                {
+                    <option value="@genre.Id">@genre.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="artistFilter">Artist:</label>
+            <input type="text" id="artistFilter" class="form-control ppp" placeholder="Filter by artist name" />
+        </div>
+    </div>
+
     <table class="table">
         <thead>
             <tr>
@@ -21,7 +38,7 @@
                     <td>@music.Artist</td>
                     <td>@music.Genre?.Name</td>
                     <td style="text-align:center">
-                        <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "Admin")', @music.Id, '@music.Title', '@music.Artist', '@music.GenreId')">Edit</button>
+                        <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "Admin")', @music.Id, '@music.Title', '@music.Artist', @music.GenreId')">Edit</button>
                         <button type="button" class="btn btn-danger del" onclick="deleteMusic('@Url.Action("DeleteMusic", "Admin")', @music.Id)">Delete</button>
                     </td>
                 </tr>

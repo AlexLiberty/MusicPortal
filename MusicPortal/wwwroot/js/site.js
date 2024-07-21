@@ -502,17 +502,17 @@ function submitEditUserMusicForm() {
 }
 
 $(document).ready(function () {
-    function sortMusic(column, order) {
+    function updateMusicTable(column, order, genreId, artist) {
         $.ajax({
-            url: '/Admin/GetSortedMusic',
-            data: { column: column, order: order },
+            url: '/Admin/GetFilteredMusic',
+            data: { column: column, order: order, genreId: genreId, artist: artist },
             success: function (data) {
                 $('#musicTableBody').html(data);
                 var newOrder = order === 'asc' ? 'desc' : 'asc';
                 $('.sortable[data-column="' + column + '"]').data('order', newOrder);
             },
             error: function () {
-                console.log("Error loading sorted music.");
+                console.log("Error loading filtered music.");
             }
         });
     }
@@ -520,6 +520,16 @@ $(document).ready(function () {
     $('.sortable').on('click', function () {
         var column = $(this).data('column');
         var order = $(this).data('order');
-        sortMusic(column, order);
+        var genreId = $('#genreFilter').val();
+        var artist = $('#artistFilter').val();
+        updateMusicTable(column, order, genreId, artist);
+    });
+
+    $('#genreFilter, #artistFilter').on('change keyup', function () {
+        var column = $('.sortable[data-order]').data('column');
+        var order = $('.sortable[data-order]').data('order');
+        var genreId = $('#genreFilter').val();
+        var artist = $('#artistFilter').val();
+        updateMusicTable(column, order, genreId, artist);
     });
 });

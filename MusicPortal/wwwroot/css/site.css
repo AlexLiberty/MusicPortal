@@ -256,3 +256,12 @@ body {
 .sortable {
     cursor: pointer;
 }
+
+.filter {
+    width: 500px;
+    display: flex;
+}
+
+.form-group{
+ margin-right: 50px;
+}
