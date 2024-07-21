@@ -579,3 +579,36 @@ $(document).ready(function () {
         updateTabContent();
     });
 });
+
+$(document).ready(function () {
+    function updateMusicTable(column, order, genreId, artist) {
+        $.ajax({
+            url: '/User/GetFilteredMusic',
+            data: { column: column, order: order, genreId: genreId, artist: artist },
+            success: function (data) {
+                $('#musicTableBody').html(data);
+                var newOrder = order === 'asc' ? 'desc' : 'asc';
+                $('.sortable[data-column="' + column + '"]').data('order', newOrder);
+            },
+            error: function () {
+                console.log("Error loading filtered music.");
+            }
+        });
+    }
+
+    $('.sortable').on('click', function () {
+        var column = $(this).data('column');
+        var order = $(this).data('order');
+        var genreId = $('#genreFilter').val();
+        var artist = $('#artistFilter').val();
+        updateMusicTable(column, order, genreId, artist);
+    });
+
+    $('#genreFilter, #artistFilter').on('change keyup', function () {
+        var column = $('.sortable[data-order]').data('column');
+        var order = $('.sortable[data-order]').data('order');
+        var genreId = $('#genreFilter').val();
+        var artist = $('#artistFilter').val();
+        updateMusicTable(column, order, genreId, artist);
+    });
+});
