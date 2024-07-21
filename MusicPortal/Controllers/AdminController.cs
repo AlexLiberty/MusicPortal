@@ -181,5 +181,28 @@ namespace MusicPortal.Controllers
             var musicUrl = Url.Content($"/Music/{Path.GetFileName(music.FilePath)}");
             return Json(new { url = musicUrl });
         }
+
+        public async Task<IActionResult> GetSortedMusic(string column, string order)
+        {
+            var music = await _musicRepository.GetAllMusic();
+            var genres = await _genreRepository.GetAllGenres();
+
+            switch (column.ToLower())
+            {
+                case "title":
+                    music = order == "asc" ? music.OrderBy(m => m.Title).ToList() : music.OrderByDescending(m => m.Title).ToList();
+                    break;
+                case "artist":
+                    music = order == "asc" ? music.OrderBy(m => m.Artist).ToList() : music.OrderByDescending(m => m.Artist).ToList();
+                    break;
+                case "genre":
+                    music = order == "asc" ? music.OrderBy(m => m.Genre?.Name).ToList() : music.OrderByDescending(m => m.Genre?.Name).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            return PartialView("MusicTable", music);
+        }
     }
 }

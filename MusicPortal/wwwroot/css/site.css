@@ -253,3 +253,6 @@ body {
     height: 50%;
 }
 
+.sortable {
+    cursor: pointer;
+}

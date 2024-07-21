@@ -44,6 +44,32 @@
                 </tbody>
             </table>
         }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Genre</th>
+                        <th style="text-align:center">Play</th>
+                    </tr>
+                </thead>
+                <tbody id="musicTableBody">
+                    @foreach (var music in Model)
+                    {
+                        <tr>
+                            <td>@music.Title</td>
+                            <td>@music.Artist</td>
+                            <td>@music.Genre?.Name</td>
+                            <td style="text-align:center">
+                                <button type="button" class="btn btn-primary play" onclick="playMusic('@Url.Action("PlayMusic", "Admin", new { id = music.Id })')">Play</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     }
     else
     {

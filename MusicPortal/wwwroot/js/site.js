@@ -500,3 +500,26 @@ function submitEditUserMusicForm() {
         }
     });
 }
+
+$(document).ready(function () {
+    function sortMusic(column, order) {
+        $.ajax({
+            url: '/Admin/GetSortedMusic',
+            data: { column: column, order: order },
+            success: function (data) {
+                $('#musicTableBody').html(data);
+                var newOrder = order === 'asc' ? 'desc' : 'asc';
+                $('.sortable[data-column="' + column + '"]').data('order', newOrder);
+            },
+            error: function () {
+                console.log("Error loading sorted music.");
+            }
+        });
+    }
+
+    $('.sortable').on('click', function () {
+        var column = $(this).data('column');
+        var order = $(this).data('order');
+        sortMusic(column, order);
+    });
+});
