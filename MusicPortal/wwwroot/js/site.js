@@ -89,6 +89,7 @@ async function updateTabContent() {
 
         restoreTabState();
         handleSortAndFilter();
+        handleSortAndFilterMusic() 
     } catch (error) {
         console.error('Error:', error);
     }
@@ -447,7 +448,6 @@ function playMusic(url) {
     });
 }
 
-
 function submitAddUserMusicForm() {
     var form = $('#addMusicForm')[0];
     var formData = new FormData(form);
@@ -502,22 +502,24 @@ function submitEditUserMusicForm() {
     });
 }
 
-$(document).ready(function () {
-    function updateMusicTable(column, order, genreId, artist) {
-        $.ajax({
-            url: '/Admin/GetFilteredMusic',
-            data: { column: column, order: order, genreId: genreId, artist: artist },
-            success: function (data) {
-                $('#musicTableBody').html(data);
-                var newOrder = order === 'asc' ? 'desc' : 'asc';
-                $('.sortable[data-column="' + column + '"]').data('order', newOrder);
-            },
-            error: function () {
-                console.log("Error loading filtered music.");
-            }
-        });
-    }
+//////////////////////////////////////////////////////////////////////////////
+async function updateMusicTable(column, order, genreId, artist) {
+    $.ajax({
+        url: '/Admin/GetFilteredMusic',
+        data: { column: column, order: order, genreId: genreId, artist: artist },
+        success: function (data) {
+            $('#musicTableBody').html(data);
 
+            var newOrder = order === 'asc' ? 'desc' : 'asc';
+            $('.sortable[data-column="' + column + '"]').data('order', newOrder);
+        },
+        error: function () {
+            console.error("Error loading filtered music.");
+        }
+    });
+}
+
+async function handleSortAndFilterMusic() {
     $('.sortable').on('click', function () {
         var column = $(this).data('column');
         var order = $(this).data('order');
@@ -533,8 +535,24 @@ $(document).ready(function () {
         var artist = $('#artistFilter').val();
         updateMusicTable(column, order, genreId, artist);
     });
-});
+}
 
+async function handleAction(url, userId, action) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: JSON.stringify({ userId }),
+        contentType: 'application/json',
+        success: async function () {
+            await updateTabContent();
+        },
+        error: function () {
+            console.error('Failed to perform action:', action);
+        }
+    });
+}
+
+///////////////////////////////////////////////////////////////////////////
 async function updateUserTable(column, order, status, nameEmail) {
     try {
         const response = await fetch('/Admin/GetFilteredAndSortedUsers?' + $.param({ column, order, status, nameEmail }));
@@ -572,7 +590,7 @@ $(document).ready(function () {
     updateTabContent();
 
     handleSortAndFilter();
-
+    handleSortAndFilterMusic();
     $('.tab-links').on('click', function () {
         const tab = $(this).data('tab');
         $('#tab-content').load(tabSelectors[tab]);
@@ -580,8 +598,9 @@ $(document).ready(function () {
     });
 });
 
+//////////////////////////////////////////////////////////////////////
 $(document).ready(function () {
-    function updateMusicTable(column, order, genreId, artist) {
+    function updateMusicTableUser(column, order, genreId, artist) {
         $.ajax({
             url: '/User/GetFilteredMusic',
             data: { column: column, order: order, genreId: genreId, artist: artist },
@@ -601,7 +620,7 @@ $(document).ready(function () {
         var order = $(this).data('order');
         var genreId = $('#genreFilter').val();
         var artist = $('#artistFilter').val();
-        updateMusicTable(column, order, genreId, artist);
+        updateMusicTableUser(column, order, genreId, artist);
     });
 
     $('#genreFilter, #artistFilter').on('change keyup', function () {
@@ -609,6 +628,6 @@ $(document).ready(function () {
         var order = $('.sortable[data-order]').data('order');
         var genreId = $('#genreFilter').val();
         var artist = $('#artistFilter').val();
-        updateMusicTable(column, order, genreId, artist);
+        updateMusicTableUser(column, order, genreId, artist);
     });
 });
