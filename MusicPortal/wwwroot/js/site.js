@@ -299,6 +299,33 @@ function submitEditMusicForm() {
     });
 }
 
+function submitEditMusicFormIndex() {
+    var form = $('#editMusicForm')[0];
+    var formData = new FormData(form);
+
+    $.ajax({
+        type: 'POST',
+        url: $(form).attr('action'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            if (response.success) {
+                Swal.fire('Success!', 'Music successfully edited.', 'success').then(async () => {
+                    $('#editMusicModal').modal('hide');
+                    await updateContent();
+                });
+            } else {
+                Swal.fire('Error', response.message || 'An error occurred while editing the music.', 'error');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            Swal.fire('Error', 'An error occurred while editing the music.', 'error');
+        }
+    });
+}
+
 function ideleteMusic(url, id) {
     Swal.fire({
         title: 'Are you sure?',
@@ -378,15 +405,6 @@ function deleteUserMusic(url, id) {
         }
     });
 }
-
-$(document).ready(function () {
-    $(".custom-close-btn").click(function () {
-        var modal = $(this).closest(".modal");
-        if (modal.length) {
-            modal.modal('hide');
-        }
-    });
-});
 
 async function updateContent()
 {
@@ -587,14 +605,20 @@ function handleSortAndFilter() {
     });
 }
 $(document).ready(function () {
-    updateTabContent();
+    /*updateTabContent();*/
 
-    handleSortAndFilter();
-    handleSortAndFilterMusic();
-    $('.tab-links').on('click', function () {
-        const tab = $(this).data('tab');
-        $('#tab-content').load(tabSelectors[tab]);
-        updateTabContent();
+    //handleSortAndFilter();
+    //handleSortAndFilterMusic();
+    //$('.tab-links').on('click', function () {
+    //    const tab = $(this).data('tab');
+    //    $('#tab-content').load(tabSelectors[tab]);
+    //    updateTabContent();
+    //});
+    $('.custom-close-btn').click(function () {
+        var modal = $(this).closest(".modal");
+        if (modal.length) {
+            modal.modal('hide');
+        }
     });
 });
 
