@@ -605,15 +605,6 @@ function handleSortAndFilter() {
     });
 }
 $(document).ready(function () {
-    /*updateTabContent();*/
-
-    //handleSortAndFilter();
-    //handleSortAndFilterMusic();
-    //$('.tab-links').on('click', function () {
-    //    const tab = $(this).data('tab');
-    //    $('#tab-content').load(tabSelectors[tab]);
-    //    updateTabContent();
-    //});
     $('.custom-close-btn').click(function () {
         var modal = $(this).closest(".modal");
         if (modal.length) {
