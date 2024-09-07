@@ -672,3 +672,9 @@ $(document).ready(function ()
 });
 
 //////////////////////////////////////////////////////////////////////
+
+function updateFileName() {
+    const fileInput = document.getElementById('musicFile');
+    const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : '@Localizer["No file selected"]';
+    document.getElementById('fileName').value = fileName;
+}
