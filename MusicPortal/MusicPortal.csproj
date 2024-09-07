@@ -34,11 +34,35 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Views\Admin\MusicManagement.uk.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CustomToolNamespace>Recource</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Admin\MusicManagement.en.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CustomToolNamespace>Recource</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Admin\GenreManagement.uk.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CustomToolNamespace>Recource</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Admin\GenreManagement.en.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CustomToolNamespace>Recource</CustomToolNamespace>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Admin\Index.en.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <CustomToolNamespace>Recource</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Admin\Index.uk.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CustomToolNamespace>Recource</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Home\PlayMusicModal.uk.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CustomToolNamespace>Recource</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Home\PlayMusicModal.en.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <CustomToolNamespace>Recource</CustomToolNamespace>
     </EmbeddedResource>

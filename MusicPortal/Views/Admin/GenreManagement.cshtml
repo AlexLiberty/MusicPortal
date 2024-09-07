@@ -1,14 +1,18 @@
-﻿@model IEnumerable<MusicPortal.Models.DataBase.Genre>
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@model IEnumerable<MusicPortal.Models.DataBase.Genre>
 
 <div class="container mt-4">
-    <h3>Genre Management</h3>
-    <button type="button" class="addconf" data-toggle="modal" data-target="#addGenreModal">Add Genre</button>
+    <h3>@Localizer["Genre Management"]</h3>
+    <button type="button" class="addconf" data-toggle="modal" data-target="#addGenreModal">@Localizer["Add Genre"]</button>
 
     <table class="table">
         <thead>
             <tr>
-                <th style="width: 70%">Name</th>
-                <th style="text-align:center">Actions</th>
+                <th style="width: 70%">@Localizer["Name"]</th>
+                <th style="text-align:center">@Localizer["Actions"]</th>
             </tr>
         </thead>
         <tbody id="genreTableBody">
@@ -17,8 +21,8 @@
                 <tr>
                     <td>@genre.Name</td>
                     <td style="text-align:center">
-                        <button type="button" class="btn btn-warning blo" onclick="editGenreModal('@Url.Action("EditGenre", "Admin")', @genre.Id, '@genre.Name')">Edit</button>
-                        <button type="button" class="btn btn-danger del" onclick="deleteGenre('@Url.Action("DeleteGenre", "Admin")', @genre.Id)">Delete</button>
+                        <button type="button" class="btn btn-warning blo" onclick="editGenreModal('@Url.Action("EditGenre", "Admin")', @genre.Id, '@genre.Name')">@Localizer["Edit"]</button>
+                        <button type="button" class="btn btn-danger del" onclick="deleteGenre('@Url.Action("DeleteGenre", "Admin")', @genre.Id)">@Localizer["Delete"]</button>
                     </td>
                 </tr>
             }

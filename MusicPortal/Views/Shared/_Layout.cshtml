@@ -53,7 +53,7 @@
                                 </li>
                             }
                             <li class="nav-item">
-                                <a class="nav-link text-dark">Hello, @HttpContextAccessor.HttpContext.Session.GetString("UserName")</a>
+                                <a class="nav-link text-dark">@Localizer["Hello"], @HttpContextAccessor.HttpContext.Session.GetString("UserName")</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a>

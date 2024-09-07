@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace MusicPortal.Models.DataBase
 {
@@ -20,7 +21,7 @@ namespace MusicPortal.Models.DataBase
         public ICollection<Music> Musics { get; set; }
         public User()
         {
-            Timestamp = DateTime.Now.ToString("f");
+            Timestamp = DateTime.Now.ToString("f", CultureInfo.CurrentCulture);
             Musics = new List<Music>();
         }
     }

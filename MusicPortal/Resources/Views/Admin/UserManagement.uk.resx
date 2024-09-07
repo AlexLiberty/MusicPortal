@@ -133,13 +133,13 @@
     <value>Заблоковано</value>
   </data>
   <data name="Confirmed Users" xml:space="preserve">
-    <value>Підтвердження користувачів</value>
+    <value>Підтвердженні користувачі</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Видалити</value>
   </data>
   <data name="Filter by name or email" xml:space="preserve">
-    <value>Сортувати за ім'ям або email</value>
+    <value>Пошук за ім'ям або email</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Ім'я</value>

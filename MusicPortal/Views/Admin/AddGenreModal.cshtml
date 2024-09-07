@@ -1,9 +1,12 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
 <div class="modal fade" id="addGenreModal" tabindex="-1" role="dialog" aria-labelledby="addGenreModalLabel" aria-hidden="true">
     <div class="modal-dialog centermodal" role="document">
         <div class="modal-content addform">
             <div class="modal-header">
-                <h5 class="modal-title" id="addGenreModalLabel">Add Genre</h5>
+                <h5 class="modal-title" id="addGenreModalLabel">@Localizer["Add Genre"]</h5>
                 <button type="button" class="close custom-close-btn" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -12,12 +15,12 @@
             {
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="genreName">Genre Name</label>
+                        <label for="genreName">@Localizer["Genre Name"]</label>
                         <input type="text" class="form-control ppp" id="genreName" name="name" required />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary conf" onclick="submitAddGenreForm()">Add Genre</button>
+                    <button type="button" class="btn btn-primary conf" onclick="submitAddGenreForm()">@Localizer["Add Genre"]</button>
                 </div>
             }
         </div>
