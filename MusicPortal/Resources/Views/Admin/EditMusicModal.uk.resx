@@ -120,6 +120,9 @@
   <data name="Artist" xml:space="preserve">
     <value>Артист</value>
   </data>
+  <data name="Choose File" xml:space="preserve">
+    <value>Виберіть файл</value>
+  </data>
   <data name="Edit Music" xml:space="preserve">
     <value>Редагування музики</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="Genre" xml:space="preserve">
     <value>Жанр</value>
+  </data>
+  <data name="No file selected" xml:space="preserve">
+    <value>Файл не обрано</value>
   </data>
   <data name="Save Changes" xml:space="preserve">
     <value>Зберегти зміни</value>

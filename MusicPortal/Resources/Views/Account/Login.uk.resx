@@ -117,25 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add Music" xml:space="preserve">
-    <value>Add Music</value>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
-  <data name="Artist" xml:space="preserve">
-    <value>Artist</value>
+  <data name="Enter" xml:space="preserve">
+    <value>Увійти</value>
   </data>
-  <data name="Choose File" xml:space="preserve">
-    <value>Choose File</value>
+  <data name="Login" xml:space="preserve">
+    <value>Вхід</value>
   </data>
-  <data name="File" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="Genre" xml:space="preserve">
-    <value>Genre</value>
-  </data>
-  <data name="No file selected" xml:space="preserve">
-    <value>No file selected</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Title</value>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
   </data>
 </root>

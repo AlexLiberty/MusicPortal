@@ -36,7 +36,15 @@
                     </div><br><br>
                     <div class="form-group">
                         <label for="musicFile">@Localizer["File"]</label>
-                        <input type="file" class="form-control-file" id="musicFile" name="MusicFile" required />
+                        <input type="file" class="form-control-file d-none" id="musicFile" name="MusicFile" required onchange="updateFileName()" />
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="fileName" placeholder="@Localizer["No file selected"]" readonly />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-secondary" onclick="document.getElementById('musicFile').click();">
+                                    @Localizer["Choose File"]
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <br>
@@ -47,3 +55,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    function updateFileName() {
+        const fileInput = document.getElementById('musicFile');
+        const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : '@Localizer["No file selected"]';
+        document.getElementById('fileName').value = fileName;
+    }
+</script>
