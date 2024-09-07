@@ -4,7 +4,7 @@ namespace MusicPortal.Models.ViewModel
 {
     public class RegistrationViewModel
     {
-        [Required(ErrorMessage = "Email is required")]
+        [Required(ErrorMessage = "RequiredEmail")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
