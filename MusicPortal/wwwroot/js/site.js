@@ -89,7 +89,7 @@ async function updateTabContent() {
 
         restoreTabState();
         handleSortAndFilter();
-        handleSortAndFilterMusic() 
+        handleSortAndFilterMusic()
     } catch (error) {
         console.error('Error:', error);
     }
@@ -190,17 +190,17 @@ function submitEditGenreForm() {
         type: 'POST',
         url: form.attr('action'),
         data: form.serialize(),
-        success: function(response) {
+        success: function (response) {
             if (response.success) {
                 Swal.fire('Success!', 'Genre successfully edited.', 'success').then(async () => {
-                    $('#editGenreModal').modal('hide'); 
+                    $('#editGenreModal').modal('hide');
                     await updateTabContent();
                 });
             } else {
                 Swal.fire('Error', response.message || 'An error occurred while editing the genre.', 'error');
             }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error('Error:', error);
             Swal.fire('Error', 'An error occurred while editing the genre.', 'error');
         }
@@ -355,7 +355,7 @@ function ideleteMusic(url, id) {
                         });
                     } else {
                         Swal.fire('Error', response && response.message || 'An error occurred while deleting the genre.', 'error');
-                    }                    
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -406,8 +406,7 @@ function deleteUserMusic(url, id) {
     });
 }
 
-async function updateContent()
-{
+async function updateContent() {
     try {
         const response = await $.ajax({
             url: 'Home/Index',
@@ -613,7 +612,6 @@ $(document).ready(function () {
     });
 });
 
-//////////////////////////////////////////////////////////////////////
 $(document).ready(function () {
     function updateMusicTableUser(column, order, genreId, artist) {
         $.ajax({
@@ -646,3 +644,31 @@ $(document).ready(function () {
         updateMusicTableUser(column, order, genreId, artist);
     });
 });
+
+$(document).ready(function ()
+{
+    $('#languageSelect').change(function ()
+    {
+        var selectedCulture = $(this).val();
+
+        $.ajax(
+            {
+                type: 'POST',
+                url: setLanguageUrl,
+                data: { culture: selectedCulture },
+                success: function (response)
+                {
+                    if (response.success)
+                    {
+                        location.reload();
+                    }
+                },
+                error: function ()
+                {
+                    alert("ERROR CULTURE CHANGE.");
+                }
+            });
+    });
+});
+
+//////////////////////////////////////////////////////////////////////

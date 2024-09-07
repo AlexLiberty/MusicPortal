@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using MusicPortal.Models;
 using MusicPortal.Models.Repository;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace MusicPortal.Controllers
 {
@@ -22,10 +24,13 @@ namespace MusicPortal.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewData["CurrentCulture"] = CultureInfo.CurrentUICulture.Name;
+
             var userIdString = HttpContext.Session.GetString("UserId");
             var userRole = HttpContext.Session.GetString("UserRole");
             var genres = await _genreRepository.GetAllGenres();
             var music = await _musicRepository.GetAllMusic();
+
             if (int.TryParse(userIdString, out var userId))
             {
                 var user = await _userRepository.GetUserById(userId);
@@ -51,6 +56,23 @@ namespace MusicPortal.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpPost]
+        public IActionResult SetLanguage(string culture)
+        {
+            Response.Cookies.Delete(CookieRequestCultureProvider.DefaultCookieName);
+
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            Console.WriteLine($"Culture set to: {culture}");
+            Console.WriteLine($"Cookies: {Request.Cookies[CookieRequestCultureProvider.DefaultCookieName]}");
+
+            return Json(new { success = true });
         }
     }
 }

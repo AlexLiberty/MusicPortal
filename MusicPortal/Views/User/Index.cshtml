@@ -1,20 +1,24 @@
-﻿@model IEnumerable<MusicPortal.Models.DataBase.Music>
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@model IEnumerable<MusicPortal.Models.DataBase.Music>
 
 @{
     ViewData["Title"] = "User Panel";
 }
 
 <div class="text-center">
-    <h2>User Panel</h2>
+    <h2>@Localizer["User Panel"]</h2>
 </div>
 <hr>
-<button class="addconf" data-toggle="modal" data-target="#addMusicModal">Add Music</button>
+<button class="addconf" data-toggle="modal" data-target="#addMusicModal">@Localizer["Add Music"]</button>
 
 <div class="filter">
     <div class="form-group">
-        <label for="genreFilter">Genre:</label>
+        <label for="genreFilter">@Localizer["Genre"]:</label>
         <select id="genreFilter" class="form-control ppp">
-            <option value="">All Genres</option>
+            <option value="">@Localizer["All Genres"]</option>
             @foreach (var genre in ViewBag.Genres as List<MusicPortal.Models.DataBase.Genre>)
             {
                 <option value="@genre.Id">@genre.Name</option>
@@ -22,18 +26,18 @@
         </select>
     </div>
     <div class="form-group">
-        <label for="artistFilter">Artist:</label>
-        <input type="text" id="artistFilter" class="form-control ppp" placeholder="Filter by artist name" />
+        <label for="artistFilter">@Localizer["Artist"]:</label>
+        <input type="text" id="artistFilter" class="form-control ppp" placeholder="@Localizer["Filter by artist name"]" />
     </div>
 </div>
 <br>
  <table class="table">
     <thead>
         <tr>
-            <th class="sortable" data-column="title" data-order="asc">Title</th>
-            <th class="sortable" data-column="artist" data-order="asc">Artist</th>
-            <th class="sortable" data-column="genre" data-order="asc">Genre</th>
-            <th style="text-align:center">Actions</th>
+            <th class="sortable" data-column="title" data-order="asc">@Localizer["Title"]</th>
+            <th class="sortable" data-column="artist" data-order="asc">@Localizer["Artist"]</th>
+            <th class="sortable" data-column="genre" data-order="asc">@Localizer["Genre"]</th>
+            <th style="text-align:center">@Localizer["Actions"]</th>
         </tr>
     </thead>
     <tbody id="musicTableBody">
@@ -44,8 +48,8 @@
                 <td>@music.Artist</td>
                 <td>@music.Genre?.Name</td>
                 <td style="text-align:center">
-                    <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "User")', @music.Id, '@music.Title', '@music.Artist', '@music.GenreId')">Edit</button>
-                    <button type="button" class="btn btn-danger del" onclick="deleteUserMusic('@Url.Action("DeleteMusic", "User")', @music.Id)">Delete</button>
+                    <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "User")', @music.Id, '@music.Title', '@music.Artist', '@music.GenreId')">@Localizer["Edit"]</button>
+                    <button type="button" class="btn btn-danger del" onclick="deleteUserMusic('@Url.Action("DeleteMusic", "User")', @music.Id)">@Localizer["Delete"]</button>
                 </td>
             </tr>
         }

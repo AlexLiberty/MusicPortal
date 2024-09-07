@@ -1,25 +1,29 @@
-﻿@model IEnumerable<MusicPortal.Models.DataBase.User>
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@model IEnumerable<MusicPortal.Models.DataBase.User>
 
 @{
     ViewData["Title"] = "Admin Panel";
 }
 
 <div class="text-center">
-    <h2>Admin Panel</h2>
+    <h2>@Localizer["Admin Panel"]</h2>
 </div>
 
 <ul class="nav nav-tabs" id="adminTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link tabmenu active" id="confirmation-tab" data-toggle="tab" href="#confirmation" role="tab" aria-controls="confirmation" aria-selected="true">User Confirmation</a>
+        <a class="nav-link tabmenu active" id="confirmation-tab" data-toggle="tab" href="#confirmation" role="tab" aria-controls="confirmation" aria-selected="true">@Localizer["User Confirmation"]</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link tabmenu" id="management-tab" data-toggle="tab" href="#management" role="tab" aria-controls="management" aria-selected="false">User Management</a>
+        <a class="nav-link tabmenu" id="management-tab" data-toggle="tab" href="#management" role="tab" aria-controls="management" aria-selected="false">@Localizer["User Management"]</a>
     </li>
      <li class="nav-item">
-        <a class="nav-link tabmenu" id="genre-tab" data-toggle="tab" href="#genre" role="tab" aria-controls="genre" aria-selected="false">Genre Management</a>
+        <a class="nav-link tabmenu" id="genre-tab" data-toggle="tab" href="#genre" role="tab" aria-controls="genre" aria-selected="false">@Localizer["Genre Management"]</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link tabmenu" id="music-tab" data-toggle="tab" href="#music" role="tab" aria-controls="music" aria-selected="false">Music Management</a>
+        <a class="nav-link tabmenu" id="music-tab" data-toggle="tab" href="#music" role="tab" aria-controls="music" aria-selected="false">@Localizer["Music Management"]</a>
     </li>
 </ul>
 

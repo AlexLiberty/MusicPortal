@@ -1,14 +1,17 @@
-﻿@model IEnumerable<MusicPortal.Models.DataBase.Music>
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@model IEnumerable<MusicPortal.Models.DataBase.Music>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = @Localizer["Title"];
     var isAuthenticated = ViewContext.HttpContext.Session.GetString("UserId") != null;
     var isAdmin = ViewData["IsAdmin"] != null && (bool)ViewData["IsAdmin"];
 }
 
 <div class="text-center">
-    <h1 class="display-4">Best Music Portal</h1>
+    <h1 class="display-4">@Localizer["Best Music Portal"]</h1>
 </div>
-<hr>
 <br>
 <div>
     @if (isAuthenticated)
@@ -18,11 +21,11 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Genre</th>
-                        <th style="text-align:center">Play</th>
-                        <th style="text-align:center">Action</th>
+                        <th>@Localizer["Title"]</th>
+                        <th>@Localizer["Artist"]</th>
+                        <th>@Localizer["Genre"]</th>
+                        <th style="text-align:center">@Localizer["Play"]</th>
+                        <th style="text-align:center">@Localizer["Action"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,11 +36,11 @@
                             <td>@music.Artist</td>
                             <td>@music.Genre?.Name</td>
                             <td style="text-align:center">
-                                <button type="button" class="btn btn-primary play" onclick="playMusic('@Url.Action("PlayMusic", "Admin", new { id = music.Id })')">Play</button>
+                                <button type="button" class="btn btn-primary play" onclick="playMusic('@Url.Action("PlayMusic", "Admin", new { id = music.Id })')">@Localizer["Player"]</button>
                             </td>
                             <td style="text-align:center">
-                                <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "Admin")', @music.Id, '@music.Title', '@music.Artist', '@music.GenreId')">Edit</button>
-                                <button type="button" class="btn btn-danger del" onclick="ideleteMusic('@Url.Action("DeleteMusic", "Admin")', @music.Id)">Delete</button>
+                                <button type="button" class="btn btn-warning blo" onclick="editMusicModal('@Url.Action("EditMusic", "Admin")', @music.Id, '@music.Title', '@music.Artist', '@music.GenreId')">@Localizer["Edit"]</button>
+                                <button type="button" class="btn btn-danger del" onclick="ideleteMusic('@Url.Action("DeleteMusic", "Admin")', @music.Id)">@Localizer["Delete"]</button>
                             </td>
                         </tr>
                     }
@@ -49,10 +52,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Genre</th>
-                        <th style="text-align:center">Play</th>
+                        <th>@Localizer["Title"]</th>
+                        <th>@Localizer["Artist"]</th>
+                        <th>@Localizer["Genre"]</th>
+                        <th style="text-align:center">@Localizer["Play"]</th>
                     </tr>
                 </thead>
                 <tbody id="musicTableBody">
@@ -63,7 +66,7 @@
                             <td>@music.Artist</td>
                             <td>@music.Genre?.Name</td>
                             <td style="text-align:center">
-                                <button type="button" class="btn btn-primary play" onclick="playMusic('@Url.Action("PlayMusic", "Admin", new { id = music.Id })')">Play</button>
+                                <button type="button" class="btn btn-primary play" onclick="playMusic('@Url.Action("PlayMusic", "Admin", new { id = music.Id })')">@Localizer["Player"]</button>
                             </td>
                         </tr>
                     }
@@ -76,10 +79,10 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Genre</th>
-                    <th style="text-align:center">Play</th>
+                    <th>@Localizer["Title"]</th>
+                    <th>@Localizer["Artist"]</th>
+                    <th>@Localizer["Genre"]</th>
+                    <th style="text-align:center">@Localizer["Play"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,7 +93,7 @@
                         <td>@music.Artist</td>
                         <td>@music.Genre?.Name</td>
                         <td style="text-align:center">
-                            <button type="button" class="btn btn-primary play" onclick="playMusic('@Url.Action("PlayMusic", "Admin", new { id = music.Id })')">Play</button>
+                            <button type="button" class="btn btn-primary play" onclick="playMusic('@Url.Action("PlayMusic", "Admin", new { id = music.Id })')">@Localizer["Player"]</button>
                         </td>                       
                     </tr>
                 }

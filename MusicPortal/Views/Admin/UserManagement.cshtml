@@ -1,21 +1,25 @@
-﻿@model IEnumerable<MusicPortal.Models.DataBase.User>
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@model IEnumerable<MusicPortal.Models.DataBase.User>
 
 <br>
-<h5>Confirmed Users</h5>
+<h5>@Localizer["Confirmed Users"]</h5>
 <br>
 
 <div class="filter">
     <div class="form-group">
-        <label for="statusFilter">Status:</label>
+        <label for="statusFilter">@Localizer["Status"]:</label>
         <select id="statusFilter" class="form-control ppp">
-            <option value="">All Statuses</option>
-            <option value="Active">Active</option>
-            <option value="Blocked">Blocked</option>
+            <option value="">@Localizer["All Statuses"]</option>
+            <option value="Active">@Localizer["Active"]</option>
+            <option value="Blocked">@Localizer["Blocked"]</option>
         </select>
     </div>
     <div class="form-group">
-        <label for="nameEmailFilter">Name/Email:</label>
-        <input type="text" id="nameEmailFilter" class="form-control ppp" placeholder="Filter by name or email" />
+        <label for="nameEmailFilter">@Localizer["Name/Email"]:</label>
+        <input type="text" id="nameEmailFilter" class="form-control ppp" placeholder="@Localizer["Filter by name or email"]" />
     </div>
 </div><br>
 
@@ -23,10 +27,10 @@
     <thead>
         <tr>
             <th class="sortable" data-column="email" data-order="asc">Email</th>
-            <th class="sortable" data-column="name" data-order="asc">Name</th>
-            <th class="sortable" data-column="status" data-order="asc">Status</th>
-            <th class="sortable" data-column="registrationdate" data-order="asc">Registration Date</th>
-            <th style="text-align:center">Actions</th>
+            <th class="sortable" data-column="name" data-order="asc">@Localizer["Name"]</th>
+            <th class="sortable" data-column="status" data-order="asc">@Localizer["Status"]</th>
+            <th class="sortable" data-column="registrationdate" data-order="asc">@Localizer["Registration Date"]</th>
+            <th style="text-align:center">@Localizer["Actions"]</th>
         </tr>
     </thead>
     <tbody id="userTableBody">
@@ -35,18 +39,18 @@
             <tr>
                 <td>@user.Email</td>
                 <td>@user.Name</td>
-                <td>@(user.IsBlocked ? "Blocked" : "Active")</td>
+                <td>@(user.IsBlocked ? @Localizer["Blocked"] : @Localizer["Active"])</td>
                 <td>@user.Timestamp</td>
                 <td style="text-align:center">
                     @if (user.IsBlocked)
                     {
-                        <button type="button" class="btn btn-primary unbl" onclick="confirmAction('@Url.Action("UnblockUser", "Admin")', @user.Id, 'Unblock')">Unblock</button>
+                        <button type="button" class="btn btn-primary unbl" onclick="confirmAction('@Url.Action("UnblockUser", "Admin")', @user.Id, 'Unblock')">@Localizer["Unblock"]</button>
                     }
                     else
                     {
-                        <button type="button" class="btn btn-warning blo" onclick="confirmAction('@Url.Action("BlockUser", "Admin")', @user.Id, 'Block')">Block</button>
+                        <button type="button" class="btn btn-warning blo" onclick="confirmAction('@Url.Action("BlockUser", "Admin")', @user.Id, 'Block')">@Localizer["Block"]</button>
                     }
-                    <button type="button" class="btn btn-danger del" onclick="confirmAction('@Url.Action("DeleteUser", "Admin")', @user.Id, 'Delete')">Delete</button>
+                    <button type="button" class="btn btn-danger del" onclick="confirmAction('@Url.Action("DeleteUser", "Admin")', @user.Id, 'Delete')">@Localizer["Delete"]</button>
                 </td>
             </tr>
         }

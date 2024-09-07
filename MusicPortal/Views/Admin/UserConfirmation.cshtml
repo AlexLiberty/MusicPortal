@@ -1,14 +1,18 @@
-﻿@model IEnumerable<MusicPortal.Models.DataBase.User>
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+@model IEnumerable<MusicPortal.Models.DataBase.User>
 <br>
-<h5>Unconfirmed Users</h5>
+<h5>@Localizer["Unconfirmed Users"]</h5>
 <br>
 <table class="table">
     <thead>
         <tr>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Registration Date</th>
-            <th style="text-align:center">Actions</th>
+            <th>@Localizer["Email"]</th>
+            <th>@Localizer["Name"]</th>
+            <th>@Localizer["Registration Date"]</th>
+            <th style="text-align:center">@Localizer["Actions"]</th>
         </tr>
     </thead>
     <tbody>
@@ -19,8 +23,8 @@
                 <td>@user.Name</td>
                 <td>@user.Timestamp</td>
                 <td style="text-align:center">
-                    <button type="button" class="btn btn-success conf" onclick="confirmAction('@Url.Action("ConfirmUser", "Admin")', @user.Id, 'Confirm')">Confirm</button>
-                    <button type="button" class="btn btn-danger del" onclick="confirmAction('@Url.Action("DeleteUser", "Admin")', @user.Id, 'Delete')">Delete</button>
+                    <button type="button" class="btn btn-success conf" onclick="confirmAction('@Url.Action("ConfirmUser", "Admin")', @user.Id, 'Confirm')">@Localizer["Confirm"]</button>
+                    <button type="button" class="btn btn-danger del" onclick="confirmAction('@Url.Action("DeleteUser", "Admin")', @user.Id, 'Delete')">@Localizer["Delete"]</button>
                 </td>
             </tr>
         }

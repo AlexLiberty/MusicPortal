@@ -1,11 +1,26 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
 @inject IHttpContextAccessor HttpContextAccessor
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@CultureInfo.CurrentUICulture.Name">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MusicPortal</title>
+    <title>@Localizer["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MusicPortal.styles.css" asp-append-version="true" />
@@ -18,7 +33,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
@@ -28,29 +43,45 @@
                             if (isAdmin)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin Panel</a>
+                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">@Localizer["Admin Panel"]</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Index">User Panel</a>
+                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Index">@Localizer["User Panel"]</a>
                                 </li>
                             }
                             <li class="nav-item">
                                 <a class="nav-link text-dark">Hello, @HttpContextAccessor.HttpContext.Session.GetString("UserName")</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a>
+                            </li>
+                            <li class="nav-item">
+                                @* <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language:"]</label> *@
+                                <form asp-controller="Home" asp-action="SetLanguage" method="post" class="form-inline">
+                                    <select id="languageSelect" class="form-control name=" culture"
+                                            asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
+                                    </select>
+                                </form>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">@Localizer["Register"]</a>
+                            </li>
+                            <li class="nav-item">
+                                @* <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language:"]</label> *@
+                                <form asp-controller="Home" asp-action="SetLanguage" method="post" class="form-inline">
+                                    <select id="languageSelect" class="form-control name=" culture"
+                                            asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
+                                    </select>
+                                </form>
                             </li>
                         }
                     </ul>
@@ -71,7 +102,10 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>    
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        var setLanguageUrl = '@Url.Action("SetLanguage", "Home")';
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
