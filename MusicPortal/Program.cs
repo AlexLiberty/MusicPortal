@@ -48,12 +48,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-using (var creat = app.Services.CreateScope())
-{
-    var context = creat.ServiceProvider.GetRequiredService<MusicPortalContext>();
-    DatabaseInitializer.Initialize(context);
-}
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
