@@ -33,7 +33,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                            <a class="nav-link text-dark menu" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
@@ -43,23 +43,25 @@
                             if (isAdmin)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">@Localizer["Admin Panel"]</a>
+                                    <a class="nav-link text-dark menu" asp-controller="Admin" asp-action="Index">@Localizer["Admin Panel"]</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Index">@Localizer["User Panel"]</a>
+                                    <a class="nav-link text-dark menu" asp-controller="User" asp-action="Index">@Localizer["User Panel"]</a>
                                 </li>
                             }
                             <li class="nav-item">
                                 <a class="nav-link text-dark">@Localizer["Hello"], @HttpContextAccessor.HttpContext.Session.GetString("UserName")</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a>
+                                <a class="nav-link text-dark menu" asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a>
                             </li>
                             <li class="nav-item">
-                                @* <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language:"]</label> *@
+                                <label class="nav-link text-dark" asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language"]:</label>
+                            </li>                           
+                            <li class="nav-item">
                                 <form asp-controller="Home" asp-action="SetLanguage" method="post" class="form-inline">
                                     <select id="languageSelect" class="form-control name=" culture"
                                             asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
@@ -70,13 +72,15 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
+                                <a class="nav-link text-dark menu" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">@Localizer["Register"]</a>
+                                <a class="nav-link text-dark menu" asp-controller="Account" asp-action="Register">@Localizer["Register"]</a>
                             </li>
                             <li class="nav-item">
-                                @* <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language:"]</label> *@
+                                <label class="nav-link text-dark" asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language"]:</label>
+                            </li>  
+                            <li class="nav-item">
                                 <form asp-controller="Home" asp-action="SetLanguage" method="post" class="form-inline">
                                     <select id="languageSelect" class="form-control name=" culture"
                                             asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">

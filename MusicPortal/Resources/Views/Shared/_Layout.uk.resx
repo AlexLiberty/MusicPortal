@@ -121,10 +121,13 @@
     <value>Панель адміністратора</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Привіт!</value>
+    <value>Вітаю</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Домашня</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Мова</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Логін</value>
