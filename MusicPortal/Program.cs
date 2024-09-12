@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.Extensions.Options;
+using MusicPortal.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<MusicPortalContext>(options => options.UseSqlServe
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IMusicRepository, MusicRepository>();
+builder.Services.AddScoped<NotificationHub>();
 builder.Services.AddSignalR();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -60,6 +62,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("AllowSpecificOrigins");
+
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.MapControllerRoute(
     name: "default",

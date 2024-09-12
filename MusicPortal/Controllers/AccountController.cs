@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MusicPortal.Models.Repository;
 using MusicPortal.Models.ViewModel;
 
