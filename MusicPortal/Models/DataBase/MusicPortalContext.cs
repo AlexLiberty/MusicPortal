@@ -18,7 +18,7 @@ namespace MusicPortal.Models.DataBase
                 var adminName = _configuration["AdminCredentials:Name"];
                 var adminPassword = _configuration["AdminCredentials:Password"];
 
-                Users.Add(new User
+                Users?.Add(new User
                 {
                     Email = adminEmail,
                     Name = adminName,
