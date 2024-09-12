@@ -11,13 +11,11 @@ namespace MusicPortal.Models.DataBase
         {
             if (Database.EnsureCreated())
             {
-                var salt = SecurityHelper.GenerateSalt(16);
                 Users.Add(new User
                 {
                     Email = "admin@mail.com",
                     Name = "Admin",
-                    Password = SecurityHelper.HashPassword("Admin", salt, 10000, 32),
-                    Salt = salt,
+                    Password = BCrypt.Net.BCrypt.HashPassword("Admin"),
                     IsConfirmed = true,
                     IsAdmin = true,
                     IsBlocked = false

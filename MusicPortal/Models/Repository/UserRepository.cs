@@ -8,7 +8,7 @@ namespace MusicPortal.Models.Repository
         private readonly MusicPortalContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserRepository(MusicPortalContext context, IHttpContextAccessor httpContextAccessor )
+        public UserRepository(MusicPortalContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
@@ -16,18 +16,14 @@ namespace MusicPortal.Models.Repository
 
         public async Task RegisterUser(string email, string username, string password)
         {
-            string salt = SecurityHelper.GenerateSalt(16);
-            string hashedPassword = SecurityHelper.HashPassword(password, salt, 10000, 32);
-
             var user = new User
             {
                 Email = email,
                 Name = username,
-                Password = hashedPassword,
-                Salt = salt,
+                Password = BCrypt.Net.BCrypt.HashPassword(password),
                 IsConfirmed = false,
                 IsAdmin = false,
-                IsBlocked=false
+                IsBlocked = false
             };
 
             _context.Users.Add(user);
@@ -37,23 +33,21 @@ namespace MusicPortal.Models.Repository
         public async Task<User> AuthorizeUser(string email, string password)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
-            if (user != null)
-            {
-                string hashedPassword = SecurityHelper.HashPassword(password, user.Salt, 10000, 32);
-                if (user.Password == hashedPassword)
-                {
-                    var cookieOptions = new CookieOptions
-                    {
-                        Expires = DateTime.Now.AddMinutes(30),
-                        HttpOnly = true,
-                        IsEssential = true
-                    };
-                    _httpContextAccessor.HttpContext.Response.Cookies.Append("UserId", user.Id.ToString(), cookieOptions);
 
-                    Console.WriteLine($"User ID {user.Id} set in cookie.");
-                    return user;
-                }
+            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
+            {
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddMinutes(30),
+                    HttpOnly = true,
+                    IsEssential = true
+                };
+                _httpContextAccessor.HttpContext.Response.Cookies.Append("UserId", user.Id.ToString(), cookieOptions);
+
+                Console.WriteLine($"User ID {user.Id} set in cookie.");
+                return user;
             }
+
             return null;
         }
 
@@ -96,7 +90,7 @@ namespace MusicPortal.Models.Repository
             }
         }
 
-        public async Task UnblockUser(int userId) 
+        public async Task UnblockUser(int userId)
         {
             var user = await _context.Users.FindAsync(userId);
             if (user != null)
