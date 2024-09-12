@@ -34,7 +34,20 @@ builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
-}); 
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+            //builder.WithOrigins("", "")
+                   //.AllowAnyHeader()
+                   //.AllowAnyMethod()
+                   //.AllowCredentials();
+        });
+});
 
 builder.Services.AddHttpContextAccessor();
 
@@ -47,6 +60,7 @@ app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors("AllowSpecificOrigins");
 
 app.MapControllerRoute(
     name: "default",
