@@ -42,11 +42,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigins",
         builder =>
         {
-            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-            //builder.WithOrigins("", "")
-                   //.AllowAnyHeader()
-                   //.AllowAnyMethod()
-                   //.AllowCredentials();
+            builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
         });
 });
 
