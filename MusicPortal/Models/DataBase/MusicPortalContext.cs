@@ -7,15 +7,22 @@ namespace MusicPortal.Models.DataBase
         public DbSet<User> Users { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Music> Music { get; set; }
-        public MusicPortalContext(DbContextOptions<MusicPortalContext> options) : base(options)
+        private readonly IConfiguration _configuration;
+        public MusicPortalContext(DbContextOptions<MusicPortalContext> options, IConfiguration configuration) : base(options)
         {
+            _configuration = configuration;
+
             if (Database.EnsureCreated())
             {
+                var adminEmail = _configuration["AdminCredentials:Email"];
+                var adminName = _configuration["AdminCredentials:Name"];
+                var adminPassword = _configuration["AdminCredentials:Password"];
+
                 Users.Add(new User
                 {
-                    Email = "admin@mail.com",
-                    Name = "Admin",
-                    Password = BCrypt.Net.BCrypt.HashPassword("Admin"),
+                    Email = adminEmail,
+                    Name = adminName,
+                    Password = BCrypt.Net.BCrypt.HashPassword(adminPassword),
                     IsConfirmed = true,
                     IsAdmin = true,
                     IsBlocked = false
