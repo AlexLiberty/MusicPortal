@@ -14,6 +14,7 @@ builder.Services.AddDbContext<MusicPortalContext>(options => options.UseSqlServe
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IMusicRepository, MusicRepository>();
+builder.Services.AddSignalR();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 

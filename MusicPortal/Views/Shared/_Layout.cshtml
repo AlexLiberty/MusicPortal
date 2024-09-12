@@ -63,7 +63,7 @@
                             </li>                           
                             <li class="nav-item">
                                 <form asp-controller="Home" asp-action="SetLanguage" method="post" class="form-inline">
-                                    <select id="languageSelect" class="form-control name=" culture"
+                                    <select id="languageSelect" class="form-control" name="culture"
                                             asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
                                     </select>
                                 </form>
@@ -82,7 +82,7 @@
                             </li>  
                             <li class="nav-item">
                                 <form asp-controller="Home" asp-action="SetLanguage" method="post" class="form-inline">
-                                    <select id="languageSelect" class="form-control name=" culture"
+                                    <select id="languageSelect" class="form-control" name="culture"
                                             asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
                                     </select>
                                 </form>
@@ -106,7 +106,8 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
     <script>
         var setLanguageUrl = '@Url.Action("SetLanguage", "Home")';
     </script>
