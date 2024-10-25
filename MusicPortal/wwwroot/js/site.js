@@ -679,3 +679,19 @@ function updateFileName() {
 }
 
 //////////////////////////////////////////////////////////////////////
+
+//$(function () {
+//    const hubConnection = new signalR.HubConnectionBuilder()
+//        .withUrl("/notification")
+//        .build();
+
+//    hubConnection.on("displayMessage", function (message) {
+//        $('#notification').html(message);
+//    });
+
+//    hubConnection.start()
+//        .then()
+//        .catch(function (err) {
+//            return console.error(err.toString());
+//        });
+//});

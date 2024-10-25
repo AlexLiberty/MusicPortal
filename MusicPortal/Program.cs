@@ -63,7 +63,13 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("AllowSpecificOrigins");
 
-app.MapHub<NotificationHub>("/notificationHub");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<NotificationHub>("/notification");
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 app.MapControllerRoute(
     name: "default",

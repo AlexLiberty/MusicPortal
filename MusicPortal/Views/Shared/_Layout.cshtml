@@ -35,6 +35,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark menu" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
                         </li>
+                        <li class="nav-item">
+                            <div><span id="notification" style="color:red; font-size:15px;"></span></div>
                     </ul>
                     <ul class="navbar-nav">
                         @if (HttpContextAccessor.HttpContext?.Session.GetString("UserName") != null)
@@ -107,8 +109,22 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
     <script>
-        var setLanguageUrl = '@Url.Action("SetLanguage", "Home")';
+        var setLanguageUrl = '@Url.Action("SetLanguage", "Home")';     
+        $(function () {
+            const hubConnection = new signalR.HubConnectionBuilder()
+                .withUrl("/notification")
+                .build();
+
+            hubConnection.on("displayMessage", function (message) {
+                $('#notification').html(message);
+            });
+
+            hubConnection.start()
+                .then(() => console.log("Connected to NotificationHub"))
+                .catch(err => console.error("Error connecting to NotificationHub: ", err));
+        });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

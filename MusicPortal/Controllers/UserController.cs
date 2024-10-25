@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using MusicPortal.Hubs;
 using MusicPortal.Models.DataBase;
 using MusicPortal.Models.Repository;
 using MusicPortal.Models.ViewModel;
@@ -11,12 +12,14 @@ namespace MusicPortal.Controllers
         private readonly IGenreRepository _genreRepository;
         private readonly IMusicRepository _musicRepository;
         private readonly IUserRepository _userRepository;
+        IHubContext<NotificationHub> _hubContext {  get; }
 
-        public UserController(IGenreRepository genreRepository, IMusicRepository musicRepository, IUserRepository userRepository )
+        public UserController(IGenreRepository genreRepository, IMusicRepository musicRepository, IUserRepository userRepository, IHubContext<NotificationHub> hubContext)
         {
             _genreRepository = genreRepository;
             _musicRepository = musicRepository;
             _userRepository = userRepository;
+            _hubContext = hubContext;
         }
 
         public async Task<IActionResult> Index()
@@ -28,7 +31,7 @@ namespace MusicPortal.Controllers
             ViewData["Music"] = music;
 
             return View(music);
-        }    
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddMusic(MusicViewModel model)
@@ -45,6 +48,7 @@ namespace MusicPortal.Controllers
                 try
                 {
                     await _musicRepository.AddMusic(model, fileData);
+                    await SendMessage("Додана нова пісня: " + model.Artist + " " + model.GenreId + " " + model.Title);
                     return Json(new { success = true });
                 }
                 catch (Exception ex)
@@ -148,6 +152,11 @@ namespace MusicPortal.Controllers
             ViewBag.Genres = genres;
 
             return PartialView("MusicTable", music);
+        }
+
+        private async Task SendMessage(string message)
+        {
+            await _hubContext.Clients.All.SendAsync("displayMessage", message);
         }
     }
 }
